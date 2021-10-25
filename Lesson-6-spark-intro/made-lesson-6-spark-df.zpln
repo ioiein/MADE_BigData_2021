@@ -1,0 +1,4108 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\n\n# Made. Spark DataFrame API\n\nНа этом семинаре мы разберем основные функции Spark DataFrame API и попробуем их применить на синтетическом примере анализа результатов A/B-теста.\n\nМы работаем в среде Apache Zeppelin. В этой среде по умолчанию создается сессия спарка и сделан импорт синтаксического сахара для удобства работы со спарком.",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T14:54:24+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Made. Spark DataFrame API</h1>\n<p>На этом семинаре мы разберем основные функции Spark DataFrame API и попробуем их применить на синтетическом примере анализа результатов A/B-теста.</p>\n<p>Мы работаем в среде Apache Zeppelin. В этой среде по умолчанию создается сессия спарка и сделан импорт синтаксического сахара для удобства работы со спарком.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634913929571_1567897162",
+      "id": "paragraph_1634913929571_1567897162",
+      "dateCreated": "2021-10-22T14:45:29+0000",
+      "dateStarted": "2021-10-22T14:54:24+0000",
+      "dateFinished": "2021-10-22T14:54:24+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:262"
+    },
+    {
+      "text": "spark",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T08:51:20+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mres1\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.SparkSession\u001b[0m = org.apache.spark.sql.SparkSession@28b67c2e\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914141874_819609160",
+      "id": "paragraph_1634914141874_819609160",
+      "dateCreated": "2021-10-22T14:49:01+0000",
+      "dateStarted": "2021-10-23T08:51:20+0000",
+      "dateFinished": "2021-10-23T08:51:41+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:263"
+    },
+    {
+      "text": "%md\n\nОднако, если мы будем работать в других средах, например, собирать jar с заданием и запускать его через `spark-submit`, то нам понадобится в явном виде создать сессию спарка.\n\nДля этого мы можем импортировать зависимость Spark SQL API (Spark DF API является частью его).",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-25T08:40:05+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Однако, если мы будем работать в других средах, например, собирать jar с заданием и запускать его через <code>spark-submit</code>, то нам понадобится в явном виде создать сессию спарка.</p>\n<p>Для этого мы можем импортировать зависимость Spark SQL API (Spark DF API является частью его).</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914149299_1824043194",
+      "id": "paragraph_1634914149299_1824043194",
+      "dateCreated": "2021-10-22T14:49:09+0000",
+      "dateStarted": "2021-10-25T08:40:05+0000",
+      "dateFinished": "2021-10-25T08:40:08+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:264"
+    },
+    {
+      "text": "import org.apache.spark.sql._",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T08:52:32+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.sql._\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914275637_1895009037",
+      "id": "paragraph_1634914275637_1895009037",
+      "dateCreated": "2021-10-22T14:51:15+0000",
+      "dateStarted": "2021-10-23T08:52:32+0000",
+      "dateFinished": "2021-10-23T08:52:32+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:265"
+    },
+    {
+      "text": "%md\nТеперь мы можем создать сессию. При создании сессии нам может быть необходимо передать различные параметры внутрь нее.\n\nВсе доступные параметры спарка можно посмотреть [здесь](https://spark.apache.org/docs/latest/configuration.html).",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T14:54:25+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Теперь мы можем создать сессию. При создании сессии нам может быть необходимо передать различные параметры внутрь нее.</p>\n<p>Все доступные параметры спарка можно посмотреть <a href=\"https://spark.apache.org/docs/latest/configuration.html\">здесь</a>.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914280489_1978883657",
+      "id": "paragraph_1634914280489_1978883657",
+      "dateCreated": "2021-10-22T14:51:20+0000",
+      "dateStarted": "2021-10-22T14:54:25+0000",
+      "dateFinished": "2021-10-22T14:54:25+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:266"
+    },
+    {
+      "text": "val spark = SparkSession.builder()\r\n    // адрес мастера\r\n    .master(\"local[*]\")\r\n    // имя приложения в интерфейсе спарка\r\n    .appName(\"made-demo\")\r\n//     .config(\"spark.executor.memory\",  \"2g\")\r\n//     .config(\"spark.executor.cores\", \"2\")\r\n//     .config(\"spark.driver.memory\", \"2g\")\r\n    .getOrCreate()",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T08:54:29+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mspark\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.SparkSession\u001b[0m = org.apache.spark.sql.SparkSession@28b67c2e\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914437666_1486804450",
+      "id": "paragraph_1634914437666_1486804450",
+      "dateCreated": "2021-10-22T14:53:57+0000",
+      "dateStarted": "2021-10-23T08:54:29+0000",
+      "dateFinished": "2021-10-23T08:54:30+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:267"
+    },
+    {
+      "text": "%md\n\nПосле создания сессии мы можем импортировать синтаксический сахар",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T14:55:19+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>После создания сессии мы можем импортировать синтаксический сахар</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914480229_1714309824",
+      "id": "paragraph_1634914480229_1714309824",
+      "dateCreated": "2021-10-22T14:54:40+0000",
+      "dateStarted": "2021-10-22T14:55:19+0000",
+      "dateFinished": "2021-10-22T14:55:19+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:268"
+    },
+    {
+      "text": "import spark.implicits._",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T08:55:02+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import spark.implicits._\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914520748_66581049",
+      "id": "paragraph_1634914520748_66581049",
+      "dateCreated": "2021-10-22T14:55:20+0000",
+      "dateStarted": "2021-10-23T08:55:02+0000",
+      "dateFinished": "2021-10-23T08:55:03+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:269"
+    },
+    {
+      "text": "%md\n\n## Создание DataFrame",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T14:55:55+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Создание DataFrame</h2>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914551023_319285698",
+      "id": "paragraph_1634914551023_319285698",
+      "dateCreated": "2021-10-22T14:55:51+0000",
+      "dateStarted": "2021-10-22T14:55:55+0000",
+      "dateFinished": "2021-10-22T14:55:55+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:270"
+    },
+    {
+      "text": "val names = Seq(\"Vanya\", \"Petya\", \"Vasya\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T08:55:21+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mnames\u001b[0m: \u001b[1m\u001b[32mSeq[String]\u001b[0m = List(Vanya, Petya, Vasya)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914536687_486169814",
+      "id": "paragraph_1634914536687_486169814",
+      "dateCreated": "2021-10-22T14:55:36+0000",
+      "dateStarted": "2021-10-23T08:55:21+0000",
+      "dateFinished": "2021-10-23T08:55:22+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:271"
+    },
+    {
+      "text": "%md\n\nИз коллекций функцией .toDF (нужен импорт spark.implicits._)",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T14:56:21+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Из коллекций функцией .toDF (нужен импорт spark.implicits._)</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914577211_1300081280",
+      "id": "paragraph_1634914577211_1300081280",
+      "dateCreated": "2021-10-22T14:56:17+0000",
+      "dateStarted": "2021-10-22T14:56:21+0000",
+      "dateFinished": "2021-10-22T14:56:21+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:272"
+    },
+    {
+      "text": "val df = names.toDF(\"name\")\r\ndf.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T08:55:24+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+\n| name|\n+-----+\n|Vanya|\n|Petya|\n|Vasya|\n+-----+\n\n\u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [name: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914536120_1863563621",
+      "id": "paragraph_1634914536120_1863563621",
+      "dateCreated": "2021-10-22T14:55:36+0000",
+      "dateStarted": "2021-10-23T08:55:24+0000",
+      "dateFinished": "2021-10-23T08:55:27+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:273"
+    },
+    {
+      "text": "%md\n\nКоллекция кейс классов",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T14:57:08+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Коллекция кейс классов</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914623913_33999851",
+      "id": "paragraph_1634914623913_33999851",
+      "dateCreated": "2021-10-22T14:57:03+0000",
+      "dateStarted": "2021-10-22T14:57:08+0000",
+      "dateFinished": "2021-10-22T14:57:08+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:274"
+    },
+    {
+      "text": "case class Person(name: String)\r\n// List((\"Vanya\", 25, \"Moscow\"))\r\nval df = spark.createDataFrame(names.map(Person))\r\ndf.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T14:57:15+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+\n| name|\n+-----+\n|Vanya|\n|Petya|\n|Vasya|\n+-----+\n\ndefined class Person\n\u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [name: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634913866889_92609784",
+      "id": "paragraph_1634913866889_92609784",
+      "dateCreated": "2021-10-22T14:44:26+0000",
+      "dateStarted": "2021-10-22T14:57:15+0000",
+      "dateFinished": "2021-10-22T14:57:15+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:275"
+    },
+    {
+      "text": "%md\n\nRDD[Row] и Schema",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:03:28+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>RDD[Row] и Schema</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914646905_1916787182",
+      "id": "paragraph_1634914646905_1916787182",
+      "dateCreated": "2021-10-22T14:57:26+0000",
+      "dateStarted": "2021-10-23T09:03:28+0000",
+      "dateFinished": "2021-10-23T09:03:30+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:276"
+    },
+    {
+      "text": "import org.apache.spark.sql.types._\r\n\r\nval schema = StructType(Seq(\r\n    StructField(\"name\", StringType)\r\n))",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T14:57:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.sql.types._\n\u001b[1m\u001b[34mschema\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.types.StructType\u001b[0m = StructType(StructField(name,StringType,true))\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914646655_422020919",
+      "id": "paragraph_1634914646655_422020919",
+      "dateCreated": "2021-10-22T14:57:26+0000",
+      "dateStarted": "2021-10-22T14:57:36+0000",
+      "dateFinished": "2021-10-22T14:57:37+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:277"
+    },
+    {
+      "text": "val rdd = spark\r\n    .sparkContext\r\n    .parallelize(names.map(x => Row(x)))\r\n\r\nval df = spark.createDataFrame(rdd, schema)\r\ndf.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T14:57:47+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+\n| name|\n+-----+\n|Vanya|\n|Petya|\n|Vasya|\n+-----+\n\n\u001b[1m\u001b[34mrdd\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[org.apache.spark.sql.Row]\u001b[0m = ParallelCollectionRDD[0] at parallelize at <console>:45\n\u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [name: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=0",
+              "$$hashKey": "object:2813"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=1",
+              "$$hashKey": "object:2814"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=2",
+              "$$hashKey": "object:2815"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914646517_677717925",
+      "id": "paragraph_1634914646517_677717925",
+      "dateCreated": "2021-10-22T14:57:26+0000",
+      "dateStarted": "2021-10-22T14:57:47+0000",
+      "dateFinished": "2021-10-22T14:57:48+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:278"
+    },
+    {
+      "text": "%md\n\nRDD от кейс классов",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T14:57:58+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>RDD от кейс классов</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914675260_1507784078",
+      "id": "paragraph_1634914675260_1507784078",
+      "dateCreated": "2021-10-22T14:57:55+0000",
+      "dateStarted": "2021-10-22T14:57:58+0000",
+      "dateFinished": "2021-10-22T14:57:58+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:279"
+    },
+    {
+      "text": "val rdd = spark\r\n    .sparkContext\r\n    .parallelize(names.map(x => Person(x)))\r\n\r\nval df = spark.createDataFrame(rdd)\r\ndf.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T14:58:10+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+\n| name|\n+-----+\n|Vanya|\n|Petya|\n|Vasya|\n+-----+\n\n\u001b[1m\u001b[34mrdd\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[Person]\u001b[0m = ParallelCollectionRDD[5] at parallelize at <console>:46\n\u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [name: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=3",
+              "$$hashKey": "object:2909"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=4",
+              "$$hashKey": "object:2910"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=5",
+              "$$hashKey": "object:2911"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914646385_1111549581",
+      "id": "paragraph_1634914646385_1111549581",
+      "dateCreated": "2021-10-22T14:57:26+0000",
+      "dateStarted": "2021-10-22T14:58:10+0000",
+      "dateFinished": "2021-10-22T14:58:11+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:280"
+    },
+    {
+      "text": "%md\n\nЧтением файла.",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T15:09:05+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Чтением файла.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914702943_239640277",
+      "id": "paragraph_1634914702943_239640277",
+      "dateCreated": "2021-10-22T14:58:22+0000",
+      "dateStarted": "2021-10-22T15:09:05+0000",
+      "dateFinished": "2021-10-22T15:09:05+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:281"
+    },
+    {
+      "text": "val df = spark.read\r\n    .option(\"header\", \"true\")\r\n    .option(\"inferSchema\", \"true\")\r\n    .option(\"sep\", \",\")\r\n    .csv(\"/notebook/names.csv\")\r\n\r\ndf.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:05:37+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+\n| name|\n+-----+\n|Vanya|\n|Petya|\n|Vasya|\n+-----+\n\n\u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [name: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=3",
+              "$$hashKey": "object:3005"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=4",
+              "$$hashKey": "object:3006"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=5",
+              "$$hashKey": "object:3007"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914646222_550751840",
+      "id": "paragraph_1634914646222_550751840",
+      "dateCreated": "2021-10-22T14:57:26+0000",
+      "dateStarted": "2021-10-23T09:05:37+0000",
+      "dateFinished": "2021-10-23T09:05:38+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:282"
+    },
+    {
+      "text": "%md\nПередавать параметры можно единой мапой",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T15:17:57+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Передавать параметры можно единой мапой</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634915874358_12284432",
+      "id": "paragraph_1634915874358_12284432",
+      "dateCreated": "2021-10-22T15:17:54+0000",
+      "dateStarted": "2021-10-22T15:17:57+0000",
+      "dateFinished": "2021-10-22T15:17:57+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:283"
+    },
+    {
+      "text": "val options = Seq(\r\n    \"header\" -> \"true\",\r\n    \"inferSchema\" -> \"true\"\r\n).toMap\r\n\r\nval df = spark.read\r\n    .options(options)\r\n    .csv(\"/notebook/names.csv\")\r\n\r\ndf.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T15:18:05+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+\n| name|\n+-----+\n|Vanya|\n|Petya|\n|Vasya|\n+-----+\n\n\u001b[1m\u001b[34moptions\u001b[0m: \u001b[1m\u001b[32mscala.collection.immutable.Map[String,String]\u001b[0m = Map(header -> true, inferSchema -> true)\n\u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [name: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=9",
+              "$$hashKey": "object:3101"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=10",
+              "$$hashKey": "object:3102"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=11",
+              "$$hashKey": "object:3103"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634914635116_1813254528",
+      "id": "paragraph_1634914635116_1813254528",
+      "dateCreated": "2021-10-22T14:57:15+0000",
+      "dateStarted": "2021-10-22T15:18:05+0000",
+      "dateFinished": "2021-10-22T15:18:06+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:284"
+    },
+    {
+      "text": "%md\n\n## Базовые функции\n\nВ этом и дальнейшем разделах мы будем использовать симулированные данные о реакциях пользователя на рекомендательные системы.\n\nДанные о реакциях собраны в рамках аб теста между двумя моделями\n\n1. `default` -- модель, которая выдает ровно одно предсказание для пользователя перед началом аб-теста. То есть в этой группе конкретному пользователю всегда показывается один и тот же баннер\n2. `model` -- модель, которая учится в онлайн (контекстный бандит). Предполагается, что со временем она должна выучивать более подходящие пользователям рекоммендации.\n\nВ рамках этого ноутбука хотим построить отчет, чтобы увидеть\n\n1. Правда ли `model` работает в среднем лучше, чем `default`?\n2. Улучшается ли со временем результат работы `model`?\n3. Есть ли какой-то период времени, когда `model` работает хуже `default`?\n\n\nКроме того, нужно учитывать тот факт, что в рамках одной сессии пользователь может несколько раз увидеть один и тот же баннер / кликнуть на него несколько раз. Дубли событий лучше удалить, чтобы избежать лишнего шума в итоговой метрике.\n\n\nДля начала нам необходимо прочитать данные",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-25T09:14:28+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Базовые функции</h2>\n<p>В этом и дальнейшем разделах мы будем использовать симулированные данные о реакциях пользователя на рекомендательные системы.</p>\n<p>Данные о реакциях собраны в рамках аб теста между двумя моделями</p>\n<ol>\n<li><code>default</code> &ndash; модель, которая выдает ровно одно предсказание для пользователя перед началом аб-теста. То есть в этой группе конкретному пользователю всегда показывается один и тот же баннер</li>\n<li><code>model</code> &ndash; модель, которая учится в онлайн (контекстный бандит). Предполагается, что со временем она должна выучивать более подходящие пользователям рекоммендации.</li>\n</ol>\n<p>В рамках этого ноутбука хотим построить отчет, чтобы увидеть</p>\n<ol>\n<li>Правда ли <code>model</code> работает в среднем лучше, чем <code>default</code>?</li>\n<li>Улучшается ли со временем результат работы <code>model</code>?</li>\n<li>Есть ли какой-то период времени, когда <code>model</code> работает хуже <code>default</code>?</li>\n</ol>\n<p>Кроме того, нужно учитывать тот факт, что в рамках одной сессии пользователь может несколько раз увидеть один и тот же баннер / кликнуть на него несколько раз. Дубли событий лучше удалить, чтобы избежать лишнего шума в итоговой метрике.</p>\n<p>Для начала нам необходимо прочитать данные</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634916001700_728978705",
+      "id": "paragraph_1634916001700_728978705",
+      "dateCreated": "2021-10-22T15:20:01+0000",
+      "dateStarted": "2021-10-25T09:14:28+0000",
+      "dateFinished": "2021-10-25T09:14:28+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:285"
+    },
+    {
+      "text": "val df = spark.read\r\n    .option(\"header\", \"true\")\r\n    .option(\"inferSchema\", \"true\")\r\n    .option(\"sep\", \",\")\r\n    .csv(\"/notebook/ab-test-sim-both.csv\")\r\n\r\ndf.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-25T08:53:06+0000",
+      "progress": 100,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+-----+---------+----------+\n|user_id|item_id|event|timestamp|confidence|\n+-------+-------+-----+---------+----------+\n|   5340|     82| SHOW|      910|       0.4|\n|   3950|     95| SHOW|     4109|       0.2|\n|   6109|     69| SHOW|     7259|       0.3|\n|   6109|     69|CLICK|     7259|       0.3|\n|    153|     21| SHOW|    10756|       0.1|\n|    153|     21| OPEN|    10756|       0.1|\n|   3250|     19| SHOW|    11855|       0.4|\n|   2709|     70| SHOW|    14666|       0.2|\n|   1690|     78| SHOW|    18206|       0.2|\n|   4435|     52| SHOW|    21494|       0.3|\n|   4435|     52|CLICK|    21494|       0.3|\n|   8833|     37| SHOW|    22996|      null|\n|   6501|     75| SHOW|    23962|       0.2|\n|   6972|      6| SHOW|    26012|      null|\n|    246|     22| SHOW|    27740|      null|\n|    246|     22| SHOW|    28017|      null|\n|   8368|     47| SHOW|    28733|       0.1|\n|   2772|     66| SHOW|    30795|       0.3|\n|   2772|     66| SHOW|    30888|       0.3|\n|    312|     61| SHOW|    31564|       0.3|\n+-------+-------+-----+---------+----------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [user_id: int, item_id: int ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=0",
+              "$$hashKey": "object:6665"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=1",
+              "$$hashKey": "object:6666"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=2",
+              "$$hashKey": "object:6667"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634919170838_401955870",
+      "id": "paragraph_1634919170838_401955870",
+      "dateCreated": "2021-10-22T16:12:50+0000",
+      "dateStarted": "2021-10-25T08:53:06+0000",
+      "dateFinished": "2021-10-25T08:53:28+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:286"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635152011330_418653675",
+      "id": "paragraph_1635152011330_418653675",
+      "dateCreated": "2021-10-25T08:53:31+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:6680",
+      "text": "%md\nПревью данных можно сделать в разном виде\n\n1. Выбрать сколько строк показать\n2. Ограничить количество символов в колонке\n3. Показать данные вертикально (проще читать, когда много колонок в таблице)",
+      "dateUpdated": "2021-10-25T08:54:46+0000",
+      "dateFinished": "2021-10-25T08:54:46+0000",
+      "dateStarted": "2021-10-25T08:54:46+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Превью данных можно сделать в разном виде</p>\n<ol>\n<li>Выбрать сколько строк показать</li>\n<li>Ограничить количество символов в колонке</li>\n<li>Показать данные вертикально (проще читать, когда много колонок в таблице)</li>\n</ol>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=3",
+              "$$hashKey": "object:6823"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=4",
+              "$$hashKey": "object:6824"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=5",
+              "$$hashKey": "object:6825"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635152007003_759003761",
+      "id": "paragraph_1635152007003_759003761",
+      "dateCreated": "2021-10-25T08:53:27+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:6555",
+      "text": "df.show(1) // top 1 row\n\ndf.show(1, 3) // truncate strings to given number\n\ndf.show(3, 3, true) // print vertical",
+      "dateUpdated": "2021-10-25T08:54:48+0000",
+      "dateFinished": "2021-10-25T08:54:49+0000",
+      "dateStarted": "2021-10-25T08:54:48+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+-----+---------+----------+\n|user_id|item_id|event|timestamp|confidence|\n+-------+-------+-----+---------+----------+\n|   5340|     82| SHOW|      910|       0.4|\n+-------+-------+-----+---------+----------+\nonly showing top 1 row\n\n+-------+-------+-----+---------+----------+\n|user_id|item_id|event|timestamp|confidence|\n+-------+-------+-----+---------+----------+\n|    534|     82|  SHO|      910|       0.4|\n+-------+-------+-----+---------+----------+\nonly showing top 1 row\n\n-RECORD 0---------\n user_id    | 534 \n item_id    | 82  \n event      | SHO \n timestamp  | 910 \n confidence | 0.4 \n-RECORD 1---------\n user_id    | 395 \n item_id    | 95  \n event      | SHO \n timestamp  | 410 \n confidence | 0.2 \n-RECORD 2---------\n user_id    | 610 \n item_id    | 69  \n event      | SHO \n timestamp  | 725 \n confidence | 0.3 \nonly showing top 3 rows\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635152117629_583387486",
+      "id": "paragraph_1635152117629_583387486",
+      "dateCreated": "2021-10-25T08:55:17+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:6855",
+      "text": "%md\n\nПосмотрим сколько всего наблюдений в таблице",
+      "dateUpdated": "2021-10-25T08:55:31+0000",
+      "dateFinished": "2021-10-25T08:55:31+0000",
+      "dateStarted": "2021-10-25T08:55:31+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Посмотрим сколько всего наблюдений в таблице</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "df.count",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-25T08:55:39+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=6",
+              "$$hashKey": "object:7042"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635152137359_775447446",
+      "id": "paragraph_1635152137359_775447446",
+      "dateCreated": "2021-10-25T08:55:37+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:6942",
+      "dateFinished": "2021-10-25T08:55:39+0000",
+      "dateStarted": "2021-10-25T08:55:39+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mres3\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 29932\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\nДавайте посмотрим, что есть в данных, выведя схему. В данном случае мы можем увидеть ее и из `show`, но так как `show` -- операция действия, то каждый раз ее лучше не использовать, схема может вычисляться по метаданным без рассчета всего датасета. Кроме того, данные могут иметь сложную вложенную структуру, что будет удобно отражено в схеме.",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-25T08:49:50+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Давайте посмотрим, что есть в данных, выведя схему. В данном случае мы можем увидеть ее и из <code>show</code>, но так как <code>show</code> &ndash; операция действия, то каждый раз ее лучше не использовать, схема может вычисляться по метаданным без рассчета всего датасета. Кроме того, данные могут иметь сложную вложенную структуру, что будет удобно отражено в схеме.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634919235369_280593465",
+      "id": "paragraph_1634919235369_280593465",
+      "dateCreated": "2021-10-22T16:13:55+0000",
+      "dateStarted": "2021-10-25T08:49:50+0000",
+      "dateFinished": "2021-10-25T08:49:50+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:287"
+    },
+    {
+      "text": "df.printSchema",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T18:04:17+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- user_id: integer (nullable = true)\n |-- item_id: integer (nullable = true)\n |-- event: string (nullable = true)\n |-- timestamp: integer (nullable = true)\n |-- confidence: double (nullable = true)\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634919209808_391480702",
+      "id": "paragraph_1634919209808_391480702",
+      "dateCreated": "2021-10-22T16:13:29+0000",
+      "dateStarted": "2021-10-22T18:04:17+0000",
+      "dateFinished": "2021-10-22T18:04:17+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:288"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635151321924_1552537016",
+      "id": "paragraph_1635151321924_1552537016",
+      "dateCreated": "2021-10-25T08:42:01+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:6360",
+      "text": "%md\n\nКак видно из схемы, у нас есть пять полей\n\n1. `user_id` -- идентификатор пользователя\n2. `item_id` -- идентификатор объекта (баннера)\n3. `event` -- событие, которое совершил пользователь, может быть одним из четырех типов\n    1. `SHOW` -- означает, что баннер отрендерился на экране пользователя\n    2. `CLICK` -- пользователь перешел по баннеру (позитивно отреагировал)\n    3. `OPEN` -- пользователь перешел по баннеру (позитивно отреагировал). По факту совпадает с событием `CLICK`, поэтому чуть позже мы его поменяем в данных на `CLICK`.\n    4. `HIDE` -- пользователь скрыл баннер (негативно отреагировал)\n4. Время клика в секундах\n5. Уверенность модели в рекомендации",
+      "dateUpdated": "2021-10-25T08:55:56+0000",
+      "dateFinished": "2021-10-25T08:55:56+0000",
+      "dateStarted": "2021-10-25T08:55:56+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Как видно из схемы, у нас есть пять полей</p>\n<ol>\n<li><code>user_id</code> &ndash; идентификатор пользователя</li>\n<li><code>item_id</code> &ndash; идентификатор объекта (баннера)</li>\n<li><code>event</code> &ndash; событие, которое совершил пользователь, может быть одним из четырех типов\n<ol>\n<li><code>SHOW</code> &ndash; означает, что баннер отрендерился на экране пользователя</li>\n<li><code>CLICK</code> &ndash; пользователь перешел по баннеру (позитивно отреагировал)</li>\n<li><code>OPEN</code> &ndash; пользователь перешел по баннеру (позитивно отреагировал). По факту совпадает с событием <code>CLICK</code>, поэтому чуть позже мы его поменяем в данных на <code>CLICK</code>.</li>\n<li><code>HIDE</code> &ndash; пользователь скрыл баннер (негативно отреагировал)</li>\n</ol>\n</li>\n<li>Время клика в секундах</li>\n<li>Уверенность модели в рекомендации</li>\n</ol>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\r\n\r\nФункции над Spark DataFrames принимают на вход колонки.\r\n\r\nПосмотрим на примере фильтрации",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T16:15:26+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Функции над Spark DataFrames принимают на вход колонки.</p>\n<p>Посмотрим на примере фильтрации</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634919209301_680624227",
+      "id": "paragraph_1634919209301_680624227",
+      "dateCreated": "2021-10-22T16:13:29+0000",
+      "dateStarted": "2021-10-22T16:15:26+0000",
+      "dateFinished": "2021-10-22T16:15:26+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:294"
+    },
+    {
+      "text": "import org.apache.spark.sql.functions._\n\ndf.filter(user_id === 9771).show\ndf.filter($\"user_id\" === 9771).show\ndf.filter(col(\"user_id\") === 9771).show // предпочтительный вариант, ибо более явный, находится в org.apache.spark.sql.functions._ + проще переиспользовать между spark / pyspark",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:01:50+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+-----+---------+----------+\n|user_id|item_id|event|timestamp|confidence|\n+-------+-------+-----+---------+----------+\n|   9771|     28| SHOW|  1407693|      null|\n|   9771|     28| SHOW|  9514532|       0.4|\n+-------+-------+-----+---------+----------+\n\n+-------+-------+-----+---------+----------+\n|user_id|item_id|event|timestamp|confidence|\n+-------+-------+-----+---------+----------+\n|   9771|     28| SHOW|  1407693|      null|\n|   9771|     28| SHOW|  9514532|       0.4|\n+-------+-------+-----+---------+----------+\n\n+-------+-------+-----+---------+----------+\n|user_id|item_id|event|timestamp|confidence|\n+-------+-------+-----+---------+----------+\n|   9771|     28| SHOW|  1407693|      null|\n|   9771|     28| SHOW|  9514532|       0.4|\n+-------+-------+-----+---------+----------+\n\nimport org.apache.spark.sql.functions._\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=199",
+              "$$hashKey": "object:3637"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=200",
+              "$$hashKey": "object:3638"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=201",
+              "$$hashKey": "object:3639"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634919209001_1029502654",
+      "id": "paragraph_1634919209001_1029502654",
+      "dateCreated": "2021-10-22T16:13:29+0000",
+      "dateStarted": "2021-10-22T18:00:05+0000",
+      "dateFinished": "2021-10-22T18:00:06+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:296"
+    },
+    {
+      "text": "df.filter(\"user_id = 9771\").show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T18:00:11+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+-----+---------+----------+\n|user_id|item_id|event|timestamp|confidence|\n+-------+-------+-----+---------+----------+\n|   9771|     28| SHOW|  1407693|      null|\n|   9771|     28| SHOW|  9514532|       0.4|\n+-------+-------+-----+---------+----------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=202",
+              "$$hashKey": "object:3693"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634919473116_465277635",
+      "id": "paragraph_1634919473116_465277635",
+      "dateCreated": "2021-10-22T16:17:53+0000",
+      "dateStarted": "2021-10-22T18:00:11+0000",
+      "dateFinished": "2021-10-22T18:00:11+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:297"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635152194931_2112274119",
+      "id": "paragraph_1635152194931_2112274119",
+      "dateCreated": "2021-10-25T08:56:34+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:7073",
+      "text": "%md \n\nТакже можно зарегистрировать таблицу и пользоваться синтаксисом SQL",
+      "dateUpdated": "2021-10-25T08:57:00+0000",
+      "dateFinished": "2021-10-25T08:57:00+0000",
+      "dateStarted": "2021-10-25T08:57:00+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Также можно зарегистрировать таблицу и пользоваться синтаксисом SQL</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "df.registerTempTable(\"df\")\n\nspark.sql(\"\"\"\n    select *\n    from df\n    where user_id = 9771\n\"\"\").show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T18:00:14+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[33mwarning: \u001b[0mthere was one deprecation warning; re-run with -deprecation for details\n+-------+-------+-----+---------+----------+\n|user_id|item_id|event|timestamp|confidence|\n+-------+-------+-----+---------+----------+\n|   9771|     28| SHOW|  1407693|      null|\n|   9771|     28| SHOW|  9514532|       0.4|\n+-------+-------+-----+---------+----------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=203",
+              "$$hashKey": "object:3739"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634919472839_1042027835",
+      "id": "paragraph_1634919472839_1042027835",
+      "dateCreated": "2021-10-22T16:17:52+0000",
+      "dateStarted": "2021-10-22T18:00:14+0000",
+      "dateFinished": "2021-10-22T18:00:14+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:298"
+    },
+    {
+      "text": "%md\n\n## Функции над колонками\n\nhttps://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/functions.html\n\n\nЕсть набор стандартных функций, все они принимают на вход колонку.",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-25T08:58:07+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Функции над колонками</h2>\n<p><a href=\"https://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/functions.html\">https://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/functions.html</a></p>\n<p>Есть набор стандартных функций, все они принимают на вход колонку.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634919472611_260599020",
+      "id": "paragraph_1634919472611_260599020",
+      "dateCreated": "2021-10-22T16:17:52+0000",
+      "dateStarted": "2021-10-25T08:58:07+0000",
+      "dateFinished": "2021-10-25T08:58:07+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:299"
+    },
+    {
+      "text": "val dfWithLength = df\r\n    .withColumn(\"length\", length(col(\"event\"))) // take length of each element in column `event`\r\n    .withColumn(\"constant\", lit(1)) // create column from constant \r\ndfWithLength.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:16:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+-----+---------+----------+------+--------+\n|user_id|item_id|event|timestamp|confidence|length|constant|\n+-------+-------+-----+---------+----------+------+--------+\n|   7466|      5| SHOW|      805|       0.4|     4|       1|\n|   9065|     28| SHOW|     4304|       0.4|     4|       1|\n|   9065|     28| SHOW|     4513|       0.4|     4|       1|\n|   9065|     28|CLICK|     4513|       0.4|     5|       1|\n|   6922|     49| SHOW|     4839|       0.1|     4|       1|\n|   6922|     49| SHOW|     5217|       0.1|     4|       1|\n|   4002|     54| SHOW|     7855|       0.2|     4|       1|\n|   5606|     23| SHOW|    11125|       0.1|     4|       1|\n|   1302|     95| SHOW|    11416|       0.4|     4|       1|\n|   6244|     51| SHOW|    13682|       0.4|     4|       1|\n|   6244|     51| SHOW|    14004|       0.4|     4|       1|\n|    487|     24| SHOW|    17011|       0.4|     4|       1|\n|    487|     24| SHOW|    17317|       0.4|     4|       1|\n|   5073|     82| SHOW|    19605|       0.1|     4|       1|\n|   5073|     82| SHOW|    19721|       0.1|     4|       1|\n|   2136|     45| SHOW|    22270|       0.2|     4|       1|\n|   6467|     41| SHOW|    23022|       0.2|     4|       1|\n|   6467|     41| SHOW|    23208|       0.2|     4|       1|\n|   5045|     10| SHOW|    26670|       0.2|     4|       1|\n|   7340|     61| SHOW|    29554|       0.3|     4|       1|\n+-------+-------+-----+---------+----------+------+--------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mdfWithLength\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [user_id: int, item_id: int ... 5 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=59",
+              "$$hashKey": "object:3825"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634919948069_622323475",
+      "id": "paragraph_1634919948069_622323475",
+      "dateCreated": "2021-10-22T16:25:48+0000",
+      "dateStarted": "2021-10-22T16:36:25+0000",
+      "dateFinished": "2021-10-22T16:36:25+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:300"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635152327031_1749943726",
+      "id": "paragraph_1635152327031_1749943726",
+      "dateCreated": "2021-10-25T08:58:47+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:7280",
+      "text": "%md\n\nМетод `select` позволяет выбрать необходимые нам колонки (или все колонки при `\"*\"`) и добавить новые. Не забывайте их переименовывать, иначе будут непонятные и неудобные для дальнейшего использования имена.",
+      "dateUpdated": "2021-10-25T09:00:09+0000",
+      "dateFinished": "2021-10-25T09:00:09+0000",
+      "dateStarted": "2021-10-25T09:00:09+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Метод <code>select</code> позволяет выбрать необходимые нам колонки (или все колонки при <code>&quot;*&quot;</code>) и добавить новые. Не забывайте их переименовывать, иначе будут непонятные и неудобные для дальнейшего использования имена.</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "dfWithLength\r\n    .select(\r\n        col(\"*\"),\r\n        (col(\"length\") - 1).as(\"l1\"),\r\n        (col(\"length\") % 2).alias(\"l2\"),\r\n        (col(\"length\") * 3).name(\"l3\")\r\n    ).show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T16:36:53+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+-----+---------+----------+------+--------+---+---+---+\n|user_id|item_id|event|timestamp|confidence|length|constant| l1| l2| l3|\n+-------+-------+-----+---------+----------+------+--------+---+---+---+\n|   7466|      5| SHOW|      805|       0.4|     4|       1|  3|  0| 12|\n|   9065|     28| SHOW|     4304|       0.4|     4|       1|  3|  0| 12|\n|   9065|     28| SHOW|     4513|       0.4|     4|       1|  3|  0| 12|\n|   9065|     28|CLICK|     4513|       0.4|     5|       1|  4|  1| 15|\n|   6922|     49| SHOW|     4839|       0.1|     4|       1|  3|  0| 12|\n|   6922|     49| SHOW|     5217|       0.1|     4|       1|  3|  0| 12|\n|   4002|     54| SHOW|     7855|       0.2|     4|       1|  3|  0| 12|\n|   5606|     23| SHOW|    11125|       0.1|     4|       1|  3|  0| 12|\n|   1302|     95| SHOW|    11416|       0.4|     4|       1|  3|  0| 12|\n|   6244|     51| SHOW|    13682|       0.4|     4|       1|  3|  0| 12|\n|   6244|     51| SHOW|    14004|       0.4|     4|       1|  3|  0| 12|\n|    487|     24| SHOW|    17011|       0.4|     4|       1|  3|  0| 12|\n|    487|     24| SHOW|    17317|       0.4|     4|       1|  3|  0| 12|\n|   5073|     82| SHOW|    19605|       0.1|     4|       1|  3|  0| 12|\n|   5073|     82| SHOW|    19721|       0.1|     4|       1|  3|  0| 12|\n|   2136|     45| SHOW|    22270|       0.2|     4|       1|  3|  0| 12|\n|   6467|     41| SHOW|    23022|       0.2|     4|       1|  3|  0| 12|\n|   6467|     41| SHOW|    23208|       0.2|     4|       1|  3|  0| 12|\n|   5045|     10| SHOW|    26670|       0.2|     4|       1|  3|  0| 12|\n|   7340|     61| SHOW|    29554|       0.3|     4|       1|  3|  0| 12|\n+-------+-------+-----+---------+----------+------+--------+---+---+---+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=60",
+              "$$hashKey": "object:3871"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634920266196_981938547",
+      "id": "paragraph_1634920266196_981938547",
+      "dateCreated": "2021-10-22T16:31:06+0000",
+      "dateStarted": "2021-10-22T16:36:53+0000",
+      "dateFinished": "2021-10-22T16:36:54+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:301"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635152413984_710027418",
+      "id": "paragraph_1635152413984_710027418",
+      "dateCreated": "2021-10-25T09:00:13+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:7367",
+      "text": "%md\n\nТакже мы можем просто удалить колонку",
+      "dateUpdated": "2021-10-25T09:00:23+0000",
+      "dateFinished": "2021-10-25T09:00:23+0000",
+      "dateStarted": "2021-10-25T09:00:23+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Также мы можем просто удалить колонку</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "dfWithLength.drop(\"length\").show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T16:36:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+-----+---------+----------+--------+\n|user_id|item_id|event|timestamp|confidence|constant|\n+-------+-------+-----+---------+----------+--------+\n|   7466|      5| SHOW|      805|       0.4|       1|\n|   9065|     28| SHOW|     4304|       0.4|       1|\n|   9065|     28| SHOW|     4513|       0.4|       1|\n|   9065|     28|CLICK|     4513|       0.4|       1|\n|   6922|     49| SHOW|     4839|       0.1|       1|\n|   6922|     49| SHOW|     5217|       0.1|       1|\n|   4002|     54| SHOW|     7855|       0.2|       1|\n|   5606|     23| SHOW|    11125|       0.1|       1|\n|   1302|     95| SHOW|    11416|       0.4|       1|\n|   6244|     51| SHOW|    13682|       0.4|       1|\n|   6244|     51| SHOW|    14004|       0.4|       1|\n|    487|     24| SHOW|    17011|       0.4|       1|\n|    487|     24| SHOW|    17317|       0.4|       1|\n|   5073|     82| SHOW|    19605|       0.1|       1|\n|   5073|     82| SHOW|    19721|       0.1|       1|\n|   2136|     45| SHOW|    22270|       0.2|       1|\n|   6467|     41| SHOW|    23022|       0.2|       1|\n|   6467|     41| SHOW|    23208|       0.2|       1|\n|   5045|     10| SHOW|    26670|       0.2|       1|\n|   7340|     61| SHOW|    29554|       0.3|       1|\n+-------+-------+-----+---------+----------+--------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=61",
+              "$$hashKey": "object:3917"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634920272841_1875128916",
+      "id": "paragraph_1634920272841_1875128916",
+      "dateCreated": "2021-10-22T16:31:12+0000",
+      "dateStarted": "2021-10-22T16:36:56+0000",
+      "dateFinished": "2021-10-22T16:36:56+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:302"
+    },
+    {
+      "text": "%md\n\n## Работа с пропусками\n\nНад spark.DataFrame доступен модуль `.na`. Он содержит несколько функций для работы с пропусками:\n1. `.na.drop(colnames: Seq[String])` -- выбрасывает все пропуски, в списке колонок\n2. `.na.fill(map: Map[String, Value])` -- маппит пропуски в конкретных колонках (ключ мапы) на соответствующее значение\n3. `.na.replace(colname: String, map: Map[Value, Value])` -- заменяет значения в колонке в соответствии с мапой.\n\n\nПосмотрим, сколько наблюдений останется, если удалить пропуски по колонке `confidence`.",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-25T09:01:04+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Работа с пропусками</h2>\n<p>Над spark.DataFrame доступен модуль <code>.na</code>. Он содержит несколько функций для работы с пропусками:</p>\n<ol>\n<li><code>.na.drop(colnames: Seq[String])</code> &ndash; выбрасывает все пропуски, в списке колонок</li>\n<li><code>.na.fill(map: Map[String, Value])</code> &ndash; маппит пропуски в конкретных колонках (ключ мапы) на соответствующее значение</li>\n<li><code>.na.replace(colname: String, map: Map[Value, Value])</code> &ndash; заменяет значения в колонке в соответствии с мапой.</li>\n</ol>\n<p>Посмотрим, сколько наблюдений останется, если удалить пропуски по колонке <code>confidence</code>.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634921889148_2135860213",
+      "id": "paragraph_1634921889148_2135860213",
+      "dateCreated": "2021-10-22T16:58:09+0000",
+      "dateStarted": "2021-10-25T09:01:04+0000",
+      "dateFinished": "2021-10-25T09:01:04+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:303"
+    },
+    {
+      "text": "df.na.drop(Seq(\"confidence\")).count",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:32:17+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mres9\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 26978\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=11",
+              "$$hashKey": "object:4003"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634921893320_1392250544",
+      "id": "paragraph_1634921893320_1392250544",
+      "dateCreated": "2021-10-22T16:58:13+0000",
+      "dateStarted": "2021-10-23T09:32:17+0000",
+      "dateFinished": "2021-10-23T09:32:18+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:304"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635152466947_1002893731",
+      "id": "paragraph_1635152466947_1002893731",
+      "dateCreated": "2021-10-25T09:01:06+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:7500",
+      "text": "%md\n\nПопробуем заменить пропуски средним. Для начала нам нужно его посчитать и получить значение на драйвере.",
+      "dateUpdated": "2021-10-25T09:01:34+0000",
+      "dateFinished": "2021-10-25T09:01:34+0000",
+      "dateStarted": "2021-10-25T09:01:34+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Попробуем заменить пропуски средним. Для начала нам нужно его посчитать и получить значение на драйвере.</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "val meanArray: Array[Row] = df.select(mean(col(\"confidence\"))).collect",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:33:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mmeanArray\u001b[0m: \u001b[1m\u001b[32mArray[org.apache.spark.sql.Row]\u001b[0m = Array([0.25107865668322304])\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=12",
+              "$$hashKey": "object:4049"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634922096674_1024956121",
+      "id": "paragraph_1634922096674_1024956121",
+      "dateCreated": "2021-10-22T17:01:36+0000",
+      "dateStarted": "2021-10-23T09:33:56+0000",
+      "dateFinished": "2021-10-23T09:33:57+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:305"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635152498938_1741651901",
+      "id": "paragraph_1635152498938_1741651901",
+      "dateCreated": "2021-10-25T09:01:38+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:7587",
+      "text": "%md\n\nПосле `collect` мы получаем массив `Row`, который является нетипизированной коллекцией. Поэтому простое взятие элемента будет иметь тип `Any`, что может привести к неприятным последствиям.",
+      "dateUpdated": "2021-10-25T09:02:53+0000",
+      "dateFinished": "2021-10-25T09:02:53+0000",
+      "dateStarted": "2021-10-25T09:02:53+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>После <code>collect</code> мы получаем массив <code>Row</code>, который является нетипизированной коллекцией. Поэтому простое взятие элемента будет иметь тип <code>Any</code>, что может привести к неприятным последствиям.</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "meanArray(0)(0)",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:33:59+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mres11\u001b[0m: \u001b[1m\u001b[32mAny\u001b[0m = 0.25107865668322304\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634981630928_163511286",
+      "id": "paragraph_1634981630928_163511286",
+      "dateCreated": "2021-10-23T09:33:50+0000",
+      "dateStarted": "2021-10-23T09:33:59+0000",
+      "dateFinished": "2021-10-23T09:33:59+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:306"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635152575450_903338269",
+      "id": "paragraph_1635152575450_903338269",
+      "dateCreated": "2021-10-25T09:02:55+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:7674",
+      "text": "%md\nДавайте скастим его в `Double`",
+      "dateUpdated": "2021-10-25T09:03:08+0000",
+      "dateFinished": "2021-10-25T09:03:08+0000",
+      "dateStarted": "2021-10-25T09:03:08+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Давайте скастим его в <code>Double</code></p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "val mn = meanArray(0)(0).asInstanceOf[Double]",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:34:18+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mmn\u001b[0m: \u001b[1m\u001b[32mDouble\u001b[0m = 0.25107865668322304\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634922139055_1071750069",
+      "id": "paragraph_1634922139055_1071750069",
+      "dateCreated": "2021-10-22T17:02:19+0000",
+      "dateStarted": "2021-10-23T09:34:18+0000",
+      "dateFinished": "2021-10-23T09:34:18+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:307"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635152600218_584264885",
+      "id": "paragraph_1635152600218_584264885",
+      "dateCreated": "2021-10-25T09:03:20+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:7765",
+      "text": "%md\n\nИ заполним пропуски, используя метод `.na.fill`",
+      "dateUpdated": "2021-10-25T09:03:40+0000",
+      "dateFinished": "2021-10-25T09:03:40+0000",
+      "dateStarted": "2021-10-25T09:03:40+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>И заполним пропуски, используя метод <code>.na.fill</code></p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "val dfWithMean = df.na.fill(Map(\n    \"confidence\" -> mn\n))\n\ndfWithMean.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:35:00+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+-----+---------+-------------------+\n|user_id|item_id|event|timestamp|         confidence|\n+-------+-------+-----+---------+-------------------+\n|   5340|     82| SHOW|      910|                0.4|\n|   3950|     95| SHOW|     4109|                0.2|\n|   6109|     69| SHOW|     7259|                0.3|\n|   6109|     69|CLICK|     7259|                0.3|\n|    153|     21| SHOW|    10756|                0.1|\n|    153|     21| OPEN|    10756|                0.1|\n|   3250|     19| SHOW|    11855|                0.4|\n|   2709|     70| SHOW|    14666|                0.2|\n|   1690|     78| SHOW|    18206|                0.2|\n|   4435|     52| SHOW|    21494|                0.3|\n|   4435|     52|CLICK|    21494|                0.3|\n|   8833|     37| SHOW|    22996|0.25107865668322304|\n|   6501|     75| SHOW|    23962|                0.2|\n|   6972|      6| SHOW|    26012|0.25107865668322304|\n|    246|     22| SHOW|    27740|0.25107865668322304|\n|    246|     22| SHOW|    28017|0.25107865668322304|\n|   8368|     47| SHOW|    28733|                0.1|\n|   2772|     66| SHOW|    30795|                0.3|\n|   2772|     66| SHOW|    30888|                0.3|\n|    312|     61| SHOW|    31564|                0.3|\n+-------+-------+-----+---------+-------------------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mdfWithMean\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [user_id: int, item_id: int ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=14",
+              "$$hashKey": "object:4221"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634921897013_1666857187",
+      "id": "paragraph_1634921897013_1666857187",
+      "dateCreated": "2021-10-22T16:58:17+0000",
+      "dateStarted": "2021-10-23T09:35:00+0000",
+      "dateFinished": "2021-10-23T09:35:01+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:309"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635152625439_1989745973",
+      "id": "paragraph_1635152625439_1989745973",
+      "dateCreated": "2021-10-25T09:03:45+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:7852",
+      "text": "%md\n\nТакже в условии указано, что события `OPEN` и `CLICK` несут одинаковый смысл, поэтому переименуем `OPEN` в `CLICK` используя `.na.replace`",
+      "dateUpdated": "2021-10-25T09:04:30+0000",
+      "dateFinished": "2021-10-25T09:04:30+0000",
+      "dateStarted": "2021-10-25T09:04:30+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Также в условии указано, что события <code>OPEN</code> и <code>CLICK</code> несут одинаковый смысл, поэтому переименуем <code>OPEN</code> в <code>CLICK</code> используя <code>.na.replace</code></p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "val dfWithClick = dfWithMean.na.replace(\"event\", Map(\"OPEN\" -> \"CLICK\"))\ndfWithClick.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:35:39+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+-----+---------+-------------------+\n|user_id|item_id|event|timestamp|         confidence|\n+-------+-------+-----+---------+-------------------+\n|   5340|     82| SHOW|      910|                0.4|\n|   3950|     95| SHOW|     4109|                0.2|\n|   6109|     69| SHOW|     7259|                0.3|\n|   6109|     69|CLICK|     7259|                0.3|\n|    153|     21| SHOW|    10756|                0.1|\n|    153|     21|CLICK|    10756|                0.1|\n|   3250|     19| SHOW|    11855|                0.4|\n|   2709|     70| SHOW|    14666|                0.2|\n|   1690|     78| SHOW|    18206|                0.2|\n|   4435|     52| SHOW|    21494|                0.3|\n|   4435|     52|CLICK|    21494|                0.3|\n|   8833|     37| SHOW|    22996|0.25107865668322304|\n|   6501|     75| SHOW|    23962|                0.2|\n|   6972|      6| SHOW|    26012|0.25107865668322304|\n|    246|     22| SHOW|    27740|0.25107865668322304|\n|    246|     22| SHOW|    28017|0.25107865668322304|\n|   8368|     47| SHOW|    28733|                0.1|\n|   2772|     66| SHOW|    30795|                0.3|\n|   2772|     66| SHOW|    30888|                0.3|\n|    312|     61| SHOW|    31564|                0.3|\n+-------+-------+-----+---------+-------------------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mdfWithClick\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [user_id: int, item_id: int ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=15",
+              "$$hashKey": "object:4267"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634922080064_450607290",
+      "id": "paragraph_1634922080064_450607290",
+      "dateCreated": "2021-10-22T17:01:20+0000",
+      "dateStarted": "2021-10-23T09:35:39+0000",
+      "dateFinished": "2021-10-23T09:35:40+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:310"
+    },
+    {
+      "text": "%md\n\n## Агрегаты\n\n\nДавайте посмотрим сколько было каждого из событий",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-25T09:04:58+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Агрегаты</h2>\n<p>Давайте посмотрим сколько было каждого из событий</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634920329039_2011267695",
+      "id": "paragraph_1634920329039_2011267695",
+      "dateCreated": "2021-10-22T16:32:09+0000",
+      "dateStarted": "2021-10-25T09:04:58+0000",
+      "dateFinished": "2021-10-25T09:04:58+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:311"
+    },
+    {
+      "text": "dfWithClick\n    .groupBy(\"event\")\n    .count()\n    .orderBy(desc(\"count\"))\n    .show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:36:41+0000",
+      "progress": 96,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+-----+\n|event|count|\n+-----+-----+\n| SHOW|25844|\n|CLICK| 3231|\n| HIDE|  857|\n+-----+-----+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=16",
+              "$$hashKey": "object:4353"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634920328929_1966581635",
+      "id": "paragraph_1634920328929_1966581635",
+      "dateCreated": "2021-10-22T16:32:08+0000",
+      "dateStarted": "2021-10-23T09:36:41+0000",
+      "dateFinished": "2021-10-23T09:36:43+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:312"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635152707566_772585168",
+      "id": "paragraph_1635152707566_772585168",
+      "dateCreated": "2021-10-25T09:05:07+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:7963",
+      "text": "%md\n\nМы можем также считать и много разных агрегаций за раз по аналогии с pd.DataFrame",
+      "dateUpdated": "2021-10-25T09:05:30+0000",
+      "dateFinished": "2021-10-25T09:05:30+0000",
+      "dateStarted": "2021-10-25T09:05:30+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Мы можем также считать и много разных агрегаций за раз по аналогии с pd.DataFrame</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "val aggregates = dfWithClick\r\n    .groupBy(\"event\")\r\n    .agg(\r\n        count(\"*\").as(\"count\"),\r\n        min(col(\"confidence\")).as(\"min_confidence\"),\r\n        mean(col(\"confidence\")).as(\"mean_confidence\"),\r\n        max(col(\"confidence\")).as(\"max_confidence\")\r\n    )\r\n    .orderBy(desc(\"count\"))\r\n\r\naggregates.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:37:31+0000",
+      "progress": 91,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+-----+--------------+-------------------+--------------+\n|event|count|min_confidence|    mean_confidence|max_confidence|\n+-----+-----+--------------+-------------------+--------------+\n| SHOW|25844|           0.1|  0.250843169270714|           0.4|\n|CLICK| 3231|           0.1| 0.2519174157036938|           0.4|\n| HIDE|  857|           0.1|0.25501787056189035|           0.4|\n+-----+-----+--------------+-------------------+--------------+\n\n\u001b[1m\u001b[34maggregates\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [event: string, count: bigint ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=17",
+              "$$hashKey": "object:4399"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634920328754_1283651163",
+      "id": "paragraph_1634920328754_1283651163",
+      "dateCreated": "2021-10-22T16:32:08+0000",
+      "dateStarted": "2021-10-23T09:37:31+0000",
+      "dateFinished": "2021-10-23T09:37:34+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:313"
+    },
+    {
+      "text": "%md\n## Оконные функции\n\nПеред тем как считать статистики, давайте выделим отдельные пользовательские сессии и проведем дедупликацию событий.\n\nСессией мы будем считать набор событий, между каждым последовательным из которых было меньше 10 минут (600 секунд). Тогда добавить индекс сессии мы можем по следующему пайплайну\n\n1. Взять лаг по времени для каждлого пользователя\n2. Заполнить нулями полученные пропуски\n3. Посчитать дельту по времени между двумя последовательными событиями пользователя\n4. Сравнить дельту с 600 секундами. Если больше, то считаем, что началась новая сессия\n5. Считаем кумулятивную сумму по индикаторам начала сессий",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-25T09:20:33+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Оконные функции</h2>\n<p>Перед тем как считать статистики, давайте выделим отдельные пользовательские сессии и проведем дедупликацию событий.</p>\n<p>Сессией мы будем считать набор событий, между каждым последовательным из которых было меньше 10 минут (600 секунд). Тогда добавить индекс сессии мы можем по следующему пайплайну</p>\n<ol>\n<li>Взять лаг по времени для каждлого пользователя</li>\n<li>Заполнить нулями полученные пропуски</li>\n<li>Посчитать дельту по времени между двумя последовательными событиями пользователя</li>\n<li>Сравнить дельту с 600 секундами. Если больше, то считаем, что началась новая сессия</li>\n<li>Считаем кумулятивную сумму по индикаторам начала сессий</li>\n</ol>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634920676964_918405743",
+      "id": "paragraph_1634920676964_918405743",
+      "dateCreated": "2021-10-22T16:37:56+0000",
+      "dateStarted": "2021-10-25T09:20:33+0000",
+      "dateFinished": "2021-10-25T09:20:33+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:314"
+    },
+    {
+      "text": "import org.apache.spark.sql.expressions.Window\n\nval userWindow = Window.partitionBy(\"user_id\").orderBy(\"timestamp\")\n\nval dfWithLag = dfWithClick.withColumn(\n    \"lag_timestamp\", lag(col(\"timestamp\"), 1).over(userWindow)\n    ).na.fill(Map(\"lag_timestamp\" -> 0))",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:46:03+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.sql.expressions.Window\n\u001b[1m\u001b[34muserWindow\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.WindowSpec\u001b[0m = org.apache.spark.sql.expressions.WindowSpec@549f34ba\n\u001b[1m\u001b[34mdfWithLag\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [user_id: int, item_id: int ... 4 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634920704863_699551896",
+      "id": "paragraph_1634920704863_699551896",
+      "dateCreated": "2021-10-22T16:38:24+0000",
+      "dateStarted": "2021-10-23T09:46:03+0000",
+      "dateFinished": "2021-10-23T09:46:03+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:315"
+    },
+    {
+      "text": "dfWithLag.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-22T17:07:41+0000",
+      "progress": 50,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+-----+---------+------------------+-------------+\n|user_id|item_id|event|timestamp|        confidence|lag_timestamp|\n+-------+-------+-----+---------+------------------+-------------+\n|    148|     83| SHOW|  7394506|               0.4|            0|\n|    148|     83| SHOW| 16756255|               0.4|      7394506|\n|    496|     32| SHOW| 15622759|               0.4|            0|\n|    833|     39| SHOW| 17024385|               0.3|            0|\n|   1088|     18| SHOW|   448131|               0.2|            0|\n|   1088|     18|CLICK|   448131|               0.2|       448131|\n|   1088|     18| SHOW|  9158482|               0.4|       448131|\n|   1088|     18| SHOW|  9158748|               0.4|      9158482|\n|   1088|     18| SHOW| 10781364|               0.4|      9158748|\n|   1088|     18| SHOW| 11229400|               0.4|     10781364|\n|   1829|     96| SHOW|  6396865|               0.1|            0|\n|   3175|     13| SHOW|  5765389|0.2516085890482218|            0|\n|   3175|     13| SHOW|  9999568|               0.1|      5765389|\n|   3175|     13| SHOW| 10503705|               0.3|      9999568|\n|   3175|     13| SHOW| 12591096|               0.4|     10503705|\n|   3175|     13| SHOW| 12591297|               0.4|     12591096|\n|   4519|     71| SHOW|   119756|               0.2|            0|\n|   4519|     71| SHOW|  2662986|0.2516085890482218|       119756|\n|   4519|     71| SHOW|  2663095|0.2516085890482218|      2662986|\n|   4519|     71|CLICK|  2663095|0.2516085890482218|      2663095|\n+-------+-------+-----+---------+------------------+-------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=85",
+              "$$hashKey": "object:4525"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634921213894_118466903",
+      "id": "paragraph_1634921213894_118466903",
+      "dateCreated": "2021-10-22T16:46:53+0000",
+      "dateStarted": "2021-10-22T17:07:41+0000",
+      "dateFinished": "2021-10-22T17:07:41+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:316"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635153641978_298643034",
+      "id": "paragraph_1635153641978_298643034",
+      "dateCreated": "2021-10-25T09:20:41+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:8118",
+      "text": "%md\nНаходим индикаторы начала сессий",
+      "dateUpdated": "2021-10-25T09:21:12+0000",
+      "dateFinished": "2021-10-25T09:21:12+0000",
+      "dateStarted": "2021-10-25T09:21:12+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Находим индикаторы начала сессий</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "val dfWithSessionStart = dfWithLag.withColumn(\n    \"session_start\", (col(\"timestamp\") - col(\"lag_timestamp\") > 600).cast(\"int\")\n)\n\ndfWithSessionStart.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:46:05+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+-----+---------+----------+-------------+-------------+\n|user_id|item_id|event|timestamp|confidence|lag_timestamp|session_start|\n+-------+-------+-----+---------+----------+-------------+-------------+\n|    148|     83| SHOW|  7394506|       0.4|            0|            1|\n|    148|     83| SHOW| 16756255|       0.4|      7394506|            1|\n|    463|     89| SHOW| 13247234|       0.4|            0|            1|\n|    463|     43| SHOW| 14780880|       0.4|     13247234|            1|\n|    463|     68| SHOW| 16587950|       0.3|     14780880|            1|\n|    463|     68| SHOW| 16588222|       0.3|     16587950|            0|\n|    463|     68|CLICK| 16588222|       0.3|     16588222|            0|\n|    471|     76| SHOW|  1605059|       0.4|            0|            1|\n|    471|     86| SHOW|  6108606|       0.1|      1605059|            1|\n|    471|     86| SHOW|  6109155|       0.1|      6108606|            0|\n|    471|     48| SHOW| 12919765|       0.2|      6109155|            1|\n|    471|     55| SHOW| 17681712|       0.2|     12919765|            1|\n|    496|     32| SHOW| 15622759|       0.4|            0|            1|\n|    833|     39| SHOW| 17024385|       0.3|            0|            1|\n|   1088|     18| SHOW|   448131|       0.2|            0|            1|\n|   1088|     18|CLICK|   448131|       0.2|       448131|            0|\n|   1088|     18| SHOW|  9158482|       0.4|       448131|            1|\n|   1088|     18| SHOW|  9158748|       0.4|      9158482|            0|\n|   1088|     18| SHOW| 10781364|       0.4|      9158748|            1|\n|   1088|     18| SHOW| 11229400|       0.4|     10781364|            1|\n+-------+-------+-----+---------+----------+-------------+-------------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mdfWithSessionStart\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [user_id: int, item_id: int ... 5 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=18",
+              "$$hashKey": "object:4571"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634921213754_2001801783",
+      "id": "paragraph_1634921213754_2001801783",
+      "dateCreated": "2021-10-22T16:46:53+0000",
+      "dateStarted": "2021-10-23T09:46:05+0000",
+      "dateFinished": "2021-10-23T09:46:07+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:317"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635153654103_1888265237",
+      "id": "paragraph_1635153654103_1888265237",
+      "dateCreated": "2021-10-25T09:20:54+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:8205",
+      "text": "%md\n\nСчитаем итоговый индекс сессии. Чтобы посчитать кумулятивную сумму, нам необходимо взять сумму по всем предыдущим строкам пользователя. Для этого мы можем в окне явно указать необходимые строки для агрегации через `rowsBetween`. Для использования всех предыдущих элементов можно использовать `Window.unboundedPreceding`.",
+      "dateUpdated": "2021-10-25T09:22:36+0000",
+      "dateFinished": "2021-10-25T09:22:36+0000",
+      "dateStarted": "2021-10-25T09:22:36+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Считаем итоговый индекс сессии. Чтобы посчитать кумулятивную сумму, нам необходимо взять сумму по всем предыдущим строкам пользователя. Для этого мы можем в окне явно указать необходимые строки для агрегации через <code>rowsBetween</code>. Для использования всех предыдущих элементов можно использовать <code>Window.unboundedPreceding</code>.</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "val sessionWindow = Window.partitionBy(\"user_id\").orderBy(\"timestamp\").rowsBetween(Window.unboundedPreceding, Window.currentRow)\n\nval dfWithSession = dfWithSessionStart.withColumn(\"session_id\", sum(col(\"session_start\")).over(sessionWindow))\n\ndfWithSession.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:46:10+0000",
+      "progress": 50,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+-----+---------+----------+-------------+-------------+----------+\n|user_id|item_id|event|timestamp|confidence|lag_timestamp|session_start|session_id|\n+-------+-------+-----+---------+----------+-------------+-------------+----------+\n|    148|     83| SHOW|  7394506|       0.4|            0|            1|         1|\n|    148|     83| SHOW| 16756255|       0.4|      7394506|            1|         2|\n|    463|     89| SHOW| 13247234|       0.4|            0|            1|         1|\n|    463|     43| SHOW| 14780880|       0.4|     13247234|            1|         2|\n|    463|     68| SHOW| 16587950|       0.3|     14780880|            1|         3|\n|    463|     68| SHOW| 16588222|       0.3|     16587950|            0|         3|\n|    463|     68|CLICK| 16588222|       0.3|     16588222|            0|         3|\n|    471|     76| SHOW|  1605059|       0.4|            0|            1|         1|\n|    471|     86| SHOW|  6108606|       0.1|      1605059|            1|         2|\n|    471|     86| SHOW|  6109155|       0.1|      6108606|            0|         2|\n|    471|     48| SHOW| 12919765|       0.2|      6109155|            1|         3|\n|    471|     55| SHOW| 17681712|       0.2|     12919765|            1|         4|\n|    496|     32| SHOW| 15622759|       0.4|            0|            1|         1|\n|    833|     39| SHOW| 17024385|       0.3|            0|            1|         1|\n|   1088|     18| SHOW|   448131|       0.2|            0|            1|         1|\n|   1088|     18|CLICK|   448131|       0.2|       448131|            0|         1|\n|   1088|     18| SHOW|  9158482|       0.4|       448131|            1|         2|\n|   1088|     18| SHOW|  9158748|       0.4|      9158482|            0|         2|\n|   1088|     18| SHOW| 10781364|       0.4|      9158748|            1|         3|\n|   1088|     18| SHOW| 11229400|       0.4|     10781364|            1|         4|\n+-------+-------+-----+---------+----------+-------------+-------------+----------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34msessionWindow\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.WindowSpec\u001b[0m = org.apache.spark.sql.expressions.WindowSpec@6bb745f2\n\u001b[1m\u001b[34mdfWithSession\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [user_id: int, item_id: int ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=19",
+              "$$hashKey": "object:4617"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634921213589_336632149",
+      "id": "paragraph_1634921213589_336632149",
+      "dateCreated": "2021-10-22T16:46:53+0000",
+      "dateStarted": "2021-10-23T09:46:10+0000",
+      "dateFinished": "2021-10-23T09:46:11+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:318"
+    },
+    {
+      "text": "%md \n## User Defined Functions\n\nПо условию, мы проводили аб-тест между двумя моделями. Вариация для пользователя выбирается по через остаток от деления хэша с солью от id пользователя.  В качестве хэша взять MurmurHash3.\n\nТакого метода в DataFrame API по дефолту нет, поэтмоу может расширить его, используя UDF.\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-25T09:27:00+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>User Defined Functions</h2>\n<p>По условию, мы проводили аб-тест между двумя моделями. Вариация для пользователя выбирается по через остаток от деления хэша с солью от id пользователя.  В качестве хэша взять MurmurHash3.</p>\n<p>Такого метода в DataFrame API по дефолту нет, поэтмоу может расширить его, используя UDF.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634922721659_394792366",
+      "id": "paragraph_1634922721659_394792366",
+      "dateCreated": "2021-10-22T17:12:01+0000",
+      "dateStarted": "2021-10-25T09:27:00+0000",
+      "dateFinished": "2021-10-25T09:27:00+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:319"
+    },
+    {
+      "text": "import scala.util.hashing.MurmurHash3\n\nval defineGroup = udf((userId: Int) => {\n    val hash = Math.floorMod(MurmurHash3.stringHash(s\"${userId}|salt\"), 100)\n    if(hash < 50) {\n        \"default\"\n    } else \"model\"\n})",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:49:43+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import scala.util.hashing.MurmurHash3\n\u001b[1m\u001b[34mdefineGroup\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.UserDefinedFunction\u001b[0m = UserDefinedFunction(<function1>,StringType,Some(List(IntegerType)))\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634921213434_693350556",
+      "id": "paragraph_1634921213434_693350556",
+      "dateCreated": "2021-10-22T16:46:53+0000",
+      "dateStarted": "2021-10-23T09:49:43+0000",
+      "dateFinished": "2021-10-23T09:49:44+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:321"
+    },
+    {
+      "text": "val dfWithGroup = dfWithSession.withColumn(\n    \"group\", defineGroup(col(\"user_id\"))\n).cache()\n\ndfWithGroup.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:50:24+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------+-----+---------+----------+-------------+-------------+----------+-------+\n|user_id|item_id|event|timestamp|confidence|lag_timestamp|session_start|session_id|  group|\n+-------+-------+-----+---------+----------+-------------+-------------+----------+-------+\n|    148|     83| SHOW|  7394506|       0.4|            0|            1|         1|default|\n|    148|     83| SHOW| 16756255|       0.4|      7394506|            1|         2|default|\n|    463|     89| SHOW| 13247234|       0.4|            0|            1|         1|  model|\n|    463|     43| SHOW| 14780880|       0.4|     13247234|            1|         2|  model|\n|    463|     68| SHOW| 16587950|       0.3|     14780880|            1|         3|  model|\n|    463|     68| SHOW| 16588222|       0.3|     16587950|            0|         3|  model|\n|    463|     68|CLICK| 16588222|       0.3|     16588222|            0|         3|  model|\n|    471|     76| SHOW|  1605059|       0.4|            0|            1|         1|  model|\n|    471|     86| SHOW|  6108606|       0.1|      1605059|            1|         2|  model|\n|    471|     86| SHOW|  6109155|       0.1|      6108606|            0|         2|  model|\n|    471|     48| SHOW| 12919765|       0.2|      6109155|            1|         3|  model|\n|    471|     55| SHOW| 17681712|       0.2|     12919765|            1|         4|  model|\n|    496|     32| SHOW| 15622759|       0.4|            0|            1|         1|default|\n|    833|     39| SHOW| 17024385|       0.3|            0|            1|         1|default|\n|   1088|     18| SHOW|   448131|       0.2|            0|            1|         1|default|\n|   1088|     18|CLICK|   448131|       0.2|       448131|            0|         1|default|\n|   1088|     18| SHOW|  9158482|       0.4|       448131|            1|         2|default|\n|   1088|     18| SHOW|  9158748|       0.4|      9158482|            0|         2|default|\n|   1088|     18| SHOW| 10781364|       0.4|      9158748|            1|         3|default|\n|   1088|     18| SHOW| 11229400|       0.4|     10781364|            1|         4|default|\n+-------+-------+-----+---------+----------+-------------+-------------+----------+-------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mdfWithGroup\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [user_id: int, item_id: int ... 7 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=20",
+              "$$hashKey": "object:4783"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634921213267_892211533",
+      "id": "paragraph_1634921213267_892211533",
+      "dateCreated": "2021-10-22T16:46:53+0000",
+      "dateStarted": "2021-10-23T09:50:24+0000",
+      "dateFinished": "2021-10-23T09:50:25+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:322"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635154034513_1721256724",
+      "id": "paragraph_1635154034513_1721256724",
+      "dateCreated": "2021-10-25T09:27:14+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:8388",
+      "text": "%md\n\nПосчитаем количество действий по разным группам",
+      "dateUpdated": "2021-10-25T09:29:29+0000",
+      "dateFinished": "2021-10-25T09:29:29+0000",
+      "dateStarted": "2021-10-25T09:29:29+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Посчитаем количество действий по разным группам</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "val pivoted = dfWithGroup\n    .groupBy(\"group\")\n    .pivot(\"event\")\n    .count()\n\npivoted.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:51:28+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-----+----+-----+\n|  group|CLICK|HIDE| SHOW|\n+-------+-----+----+-----+\n|  model| 2016|  58|12911|\n|default| 1215| 799|12933|\n+-------+-----+----+-----+\n\n\u001b[1m\u001b[34mpivoted\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [group: string, CLICK: bigint ... 2 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=21",
+              "$$hashKey": "object:4829"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=22",
+              "$$hashKey": "object:4830"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=23",
+              "$$hashKey": "object:4831"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=24",
+              "$$hashKey": "object:4832"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=25",
+              "$$hashKey": "object:4833"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=26",
+              "$$hashKey": "object:4834"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634920704698_965986768",
+      "id": "paragraph_1634920704698_965986768",
+      "dateCreated": "2021-10-22T16:38:24+0000",
+      "dateStarted": "2021-10-23T09:51:28+0000",
+      "dateFinished": "2021-10-23T09:51:38+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:323"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635154171587_41501569",
+      "id": "paragraph_1635154171587_41501569",
+      "dateCreated": "2021-10-25T09:29:31+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:8475",
+      "text": "%md\n\nСравним конверсии",
+      "dateUpdated": "2021-10-25T09:29:40+0000",
+      "dateFinished": "2021-10-25T09:29:40+0000",
+      "dateStarted": "2021-10-25T09:29:40+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Сравним конверсии</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "pivoted.select(col(\"group\"), round(col(\"CLICK\") / col(\"SHOW\"), 4).as(\"clickRate\"), round(col(\"HIDE\") / col(\"SHOW\"), 4).as(\"hideRate\")).show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:51:37+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+---------+--------+\n|  group|clickRate|hideRate|\n+-------+---------+--------+\n|  model|   0.1561|  0.0045|\n|default|   0.0939|  0.0618|\n+-------+---------+--------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=27",
+              "$$hashKey": "object:4900"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=28",
+              "$$hashKey": "object:4901"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=29",
+              "$$hashKey": "object:4902"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=30",
+              "$$hashKey": "object:4903"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=31",
+              "$$hashKey": "object:4904"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634982690921_925586915",
+      "id": "paragraph_1634982690921_925586915",
+      "dateCreated": "2021-10-23T09:51:30+0000",
+      "dateStarted": "2021-10-23T09:51:37+0000",
+      "dateFinished": "2021-10-23T09:51:41+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:324"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635154183290_895049417",
+      "id": "paragraph_1635154183290_895049417",
+      "dateCreated": "2021-10-25T09:29:43+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:8562",
+      "text": "%md\n\nВидно, что на сырых событиях модель работает лучше. Давайте также дедуплицируем их по сессиям и также проверим конверсии",
+      "dateUpdated": "2021-10-25T09:30:24+0000",
+      "dateFinished": "2021-10-25T09:30:24+0000",
+      "dateStarted": "2021-10-25T09:30:24+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Видно, что на сырых событиях модель работает лучше. Давайте также дедуплицируем их по сессиям и также проверим конверсии</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "val sessionDeduplicated = dfWithGroup.groupBy(\"group\", \"user_id\", \"item_id\", \"event\", \"session_id\").agg(min(\"timestamp\").as(\"timestamp\")).cache()\n\nsessionDeduplicated\n    .groupBy(\"group\")\n    .pivot(\"event\")\n    .count()\n    .select(col(\"group\"), round(col(\"CLICK\") / col(\"SHOW\"), 4).as(\"clickRate\"), round(col(\"HIDE\") / col(\"SHOW\"), 4).as(\"hideRate\")).show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T09:53:09+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+---------+--------+\n|  group|clickRate|hideRate|\n+-------+---------+--------+\n|  model|   0.1828|  0.0058|\n|default|   0.1098|  0.0799|\n+-------+---------+--------+\n\n\u001b[1m\u001b[34msessionDeduplicated\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [group: string, user_id: int ... 4 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=32",
+              "$$hashKey": "object:4966"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=33",
+              "$$hashKey": "object:4967"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=34",
+              "$$hashKey": "object:4968"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=35",
+              "$$hashKey": "object:4969"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=36",
+              "$$hashKey": "object:4970"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=37",
+              "$$hashKey": "object:4971"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634924158395_1961166400",
+      "id": "paragraph_1634924158395_1961166400",
+      "dateCreated": "2021-10-22T17:35:58+0000",
+      "dateStarted": "2021-10-23T09:53:09+0000",
+      "dateFinished": "2021-10-23T09:53:15+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:325"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635154228090_2072289228",
+      "id": "paragraph_1635154228090_2072289228",
+      "dateCreated": "2021-10-25T09:30:28+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:8649",
+      "text": "%md\n\nМы ответили на вопрос о том, что новая модель работает лучше и в терминах кликов, и в терминах скрытий баннера (на самом деле хорошо бы посчитать доверительный интервал, но вы уже можете это сделать сами) ).",
+      "dateUpdated": "2021-10-25T09:31:42+0000",
+      "dateFinished": "2021-10-25T09:31:42+0000",
+      "dateStarted": "2021-10-25T09:31:42+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Мы ответили на вопрос о том, что новая модель работает лучше и в терминах кликов, и в терминах скрытий баннера (на самом деле хорошо бы посчитать доверительный интервал, но вы уже можете это сделать сами) ).</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%md\n\n## Визуализация\n\nДавайте визуализируем динамику конверсий, чтобы ответить на остальные вопросы",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-25T09:32:05+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Визуализация</h2>\n<p>Давайте визуализируем динамику конверсий, чтобы ответить на остальные вопросы</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634923682257_1223309048",
+      "id": "paragraph_1634923682257_1223309048",
+      "dateCreated": "2021-10-22T17:28:02+0000",
+      "dateStarted": "2021-10-25T09:32:05+0000",
+      "dateFinished": "2021-10-25T09:32:05+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:326"
+    },
+    {
+      "text": "// давайте агрегируем количества по 12 часов\nval dfWithHour = sessionDeduplicated.withColumn(\"hour\", floor(col(\"timestamp\") / 43200))\nval pivotedDynamics = dfWithHour\n    .groupBy(\"group\", \"hour\")\n    .pivot(\"event\")\n    .count()\n    \n// посчитаем кумулятивные счетчики по времени\nval cumStatWindow = Window.partitionBy(\"group\").orderBy(\"hour\").rowsBetween(Window.unboundedPreceding, Window.currentRow)\n\nval dynamicStats = pivotedDynamics.na.fill(Map(\n    \"CLICK\" -> 0,\n    \"HIDE\" -> 0,\n    \"SHOW\" -> 0\n))\n.withColumn(\"cumClicks\", sum(col(\"CLICK\")).over(cumStatWindow))\n.withColumn(\"cumHides\", sum(col(\"HIDE\")).over(cumStatWindow))\n.withColumn(\"cumShows\", sum(col(\"SHOW\")).over(cumStatWindow))\n.select(\n    col(\"group\"),\n    col(\"hour\"),\n    round(col(\"cumClicks\") / col(\"cumShows\"), 4).as(\"cumClickRate\"),\n    round(col(\"cumHides\") / col(\"cumShows\"), 4).as(\"cumHideRate\")\n)",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-23T10:04:42+0000",
+      "progress": 99,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mdfWithHour\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [group: string, user_id: int ... 5 more fields]\n\u001b[1m\u001b[34mpivotedDynamics\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [group: string, hour: bigint ... 3 more fields]\n\u001b[1m\u001b[34mcumStatWindow\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.WindowSpec\u001b[0m = org.apache.spark.sql.expressions.WindowSpec@7f622f56\n\u001b[1m\u001b[34mdynamicStats\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [group: string, hour: bigint ... 2 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=46",
+              "$$hashKey": "object:5077"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634923936213_1493211915",
+      "id": "paragraph_1634923936213_1493211915",
+      "dateCreated": "2021-10-22T17:32:16+0000",
+      "dateStarted": "2021-10-23T10:04:42+0000",
+      "dateFinished": "2021-10-23T10:04:44+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:327"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635154397420_718562960",
+      "id": "paragraph_1635154397420_718562960",
+      "dateCreated": "2021-10-25T09:33:17+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:8760",
+      "text": "%md \n\nПостроим графики, используя стандартные средства Zeppelin.\n\n\nВидно, что новая модель примерно через месяц начинает в общем работать лучше, чем исходная.",
+      "dateUpdated": "2021-10-25T09:35:09+0000",
+      "dateFinished": "2021-10-25T09:35:09+0000",
+      "dateStarted": "2021-10-25T09:35:09+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Построим графики, используя стандартные средства Zeppelin.</p>\n<p>Видно, что новая модель примерно через месяц начинает в общем работать лучше, чем исходная.</p>\n\n</div>"
+          }
+        ]
+      }
+    },
+    {
+      "text": "z.show(dynamicStats)",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-25T09:34:11+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "lineChart",
+              "height": 300,
+              "optionOpen": true,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "group": "string",
+                      "hour": "string",
+                      "cumClickRate": "string",
+                      "cumHideRate": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "hour",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [
+                {
+                  "name": "group",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "values": [
+                {
+                  "name": "cumClickRate",
+                  "index": 2,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "group": "string",
+                      "hour": "string",
+                      "cumClickRate": "string",
+                      "cumHideRate": "string"
+                    },
+                    "updated": true
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true,
+        "editorSetting": {}
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "group\thour\tcumClickRate\tcumHideRate\nmodel\t0\t0.04\t0.04\nmodel\t1\t0.08\t0.02\nmodel\t2\t0.0541\t0.0135\nmodel\t3\t0.0526\t0.0105\nmodel\t4\t0.0492\t0.0246\nmodel\t5\t0.0567\t0.0284\nmodel\t6\t0.0688\t0.025\nmodel\t7\t0.0829\t0.0331\nmodel\t8\t0.0754\t0.0352\nmodel\t9\t0.0814\t0.0317\nmodel\t10\t0.0947\t0.0288\nmodel\t11\t0.0913\t0.0304\nmodel\t12\t0.0822\t0.0274\nmodel\t13\t0.0796\t0.0255\nmodel\t14\t0.0801\t0.0237\nmodel\t15\t0.0803\t0.0222\nmodel\t16\t0.0807\t0.0208\nmodel\t17\t0.0842\t0.0198\nmodel\t18\t0.0869\t0.0188\nmodel\t19\t0.0822\t0.0178\nmodel\t20\t0.0842\t0.0168\nmodel\t21\t0.086\t0.016\nmodel\t22\t0.0881\t0.0153\nmodel\t23\t0.0856\t0.0164\nmodel\t24\t0.0877\t0.0175\nmodel\t25\t0.0881\t0.0169\nmodel\t26\t0.0896\t0.0179\nmodel\t27\t0.0898\t0.0173\nmodel\t28\t0.0928\t0.0167\nmodel\t29\t0.0931\t0.0177\nmodel\t30\t0.0936\t0.017\nmodel\t31\t0.0938\t0.0166\nmodel\t32\t0.0924\t0.0161\nmodel\t33\t0.0922\t0.0156\nmodel\t34\t0.0927\t0.015\nmodel\t35\t0.0941\t0.0147\nmodel\t36\t0.0964\t0.0143\nmodel\t37\t0.0936\t0.0139\nmodel\t38\t0.0944\t0.0135\nmodel\t39\t0.0954\t0.0143\nmodel\t40\t0.094\t0.015\nmodel\t41\t0.0992\t0.0146\nmodel\t42\t0.0988\t0.0143\nmodel\t43\t0.0967\t0.014\nmodel\t44\t0.095\t0.0137\nmodel\t45\t0.0933\t0.0133\nmodel\t46\t0.0944\t0.014\nmodel\t47\t0.0954\t0.0138\nmodel\t48\t0.0965\t0.0135\nmodel\t49\t0.0946\t0.0133\nmodel\t50\t0.0948\t0.013\nmodel\t51\t0.0954\t0.0128\nmodel\t52\t0.0969\t0.0125\nmodel\t53\t0.0981\t0.0123\nmodel\t54\t0.0994\t0.012\nmodel\t55\t0.1\t0.0118\nmodel\t56\t0.0996\t0.0116\nmodel\t57\t0.0995\t0.0114\nmodel\t58\t0.0982\t0.0112\nmodel\t59\t0.0973\t0.0111\nmodel\t60\t0.0964\t0.0109\nmodel\t61\t0.0969\t0.0107\nmodel\t62\t0.0968\t0.0105\nmodel\t63\t0.097\t0.0103\nmodel\t64\t0.0975\t0.0102\nmodel\t65\t0.0966\t0.01\nmodel\t66\t0.0965\t0.0098\nmodel\t67\t0.0973\t0.0097\nmodel\t68\t0.0964\t0.0096\nmodel\t69\t0.0978\t0.0095\nmodel\t70\t0.0965\t0.0093\nmodel\t71\t0.0994\t0.0092\nmodel\t72\t0.0992\t0.0091\nmodel\t73\t0.0996\t0.0089\nmodel\t74\t0.0998\t0.0088\nmodel\t75\t0.0997\t0.0087\nmodel\t76\t0.1002\t0.0086\nmodel\t77\t0.0999\t0.0085\nmodel\t78\t0.1015\t0.0084\nmodel\t79\t0.1007\t0.0083\nmodel\t80\t0.101\t0.0087\nmodel\t81\t0.1003\t0.0086\nmodel\t82\t0.1002\t0.0085\nmodel\t83\t0.0997\t0.0084\nmodel\t84\t0.1002\t0.0083\nmodel\t85\t0.0994\t0.0087\nmodel\t86\t0.0999\t0.0086\nmodel\t87\t0.0993\t0.0085\nmodel\t88\t0.0994\t0.0084\nmodel\t89\t0.0991\t0.0083\nmodel\t90\t0.0992\t0.0087\nmodel\t91\t0.1007\t0.0086\nmodel\t92\t0.101\t0.0085\nmodel\t93\t0.1009\t0.0085\nmodel\t94\t0.1011\t0.0088\nmodel\t95\t0.1011\t0.0092\nmodel\t96\t0.1026\t0.0091\nmodel\t97\t0.1025\t0.009\nmodel\t98\t0.1027\t0.0089\nmodel\t99\t0.1026\t0.0088\nmodel\t100\t0.1022\t0.0087\nmodel\t101\t0.1027\t0.0087\nmodel\t102\t0.1027\t0.009\nmodel\t103\t0.1035\t0.0094\nmodel\t104\t0.1043\t0.0093\nmodel\t105\t0.1047\t0.0092\nmodel\t106\t0.1045\t0.0095\nmodel\t107\t0.1044\t0.0094\nmodel\t108\t0.1049\t0.0097\nmodel\t109\t0.1065\t0.0096\nmodel\t110\t0.1071\t0.0095\nmodel\t111\t0.1066\t0.0094\nmodel\t112\t0.1071\t0.0097\nmodel\t113\t0.1069\t0.0096\nmodel\t114\t0.1075\t0.0096\nmodel\t115\t0.1075\t0.0095\nmodel\t116\t0.107\t0.0094\nmodel\t117\t0.1075\t0.0093\nmodel\t118\t0.1071\t0.0093\nmodel\t119\t0.1066\t0.0092\nmodel\t120\t0.1073\t0.0091\nmodel\t121\t0.1073\t0.0091\nmodel\t122\t0.1075\t0.009\nmodel\t123\t0.1082\t0.0089\nmodel\t124\t0.1098\t0.0089\nmodel\t125\t0.1099\t0.0088\nmodel\t126\t0.1096\t0.0087\nmodel\t127\t0.1102\t0.0086\nmodel\t128\t0.1105\t0.0086\nmodel\t129\t0.1115\t0.0085\nmodel\t130\t0.1113\t0.0084\nmodel\t131\t0.1117\t0.0084\nmodel\t132\t0.1119\t0.0083\nmodel\t133\t0.1126\t0.0082\nmodel\t134\t0.1135\t0.0082\nmodel\t135\t0.1136\t0.0084\nmodel\t136\t0.1141\t0.0084\nmodel\t137\t0.1143\t0.0083\nmodel\t138\t0.1149\t0.0083\nmodel\t139\t0.1153\t0.0082\nmodel\t140\t0.1158\t0.0082\nmodel\t141\t0.1161\t0.0081\nmodel\t142\t0.1166\t0.008\nmodel\t143\t0.1188\t0.008\nmodel\t144\t0.1183\t0.0079\nmodel\t145\t0.1191\t0.0079\nmodel\t146\t0.1202\t0.0078\nmodel\t147\t0.1205\t0.0078\nmodel\t148\t0.1209\t0.0077\nmodel\t149\t0.1207\t0.0076\nmodel\t150\t0.1205\t0.0076\nmodel\t151\t0.1207\t0.0075\nmodel\t152\t0.1211\t0.0075\nmodel\t153\t0.1212\t0.0074\nmodel\t154\t0.1213\t0.0074\nmodel\t155\t0.1211\t0.0073\nmodel\t156\t0.121\t0.0073\nmodel\t157\t0.1208\t0.0072\nmodel\t158\t0.1213\t0.0072\nmodel\t159\t0.1215\t0.0072\nmodel\t160\t0.1228\t0.0071\nmodel\t161\t0.1227\t0.0071\nmodel\t162\t0.1233\t0.007\nmodel\t163\t0.1232\t0.007\nmodel\t164\t0.1237\t0.0069\nmodel\t165\t0.1242\t0.0069\nmodel\t166\t0.1248\t0.0069\nmodel\t167\t0.1255\t0.0068\nmodel\t168\t0.1266\t0.0068\nmodel\t169\t0.1267\t0.0067\nmodel\t170\t0.128\t0.0067\nmodel\t171\t0.128\t0.0067\nmodel\t172\t0.1285\t0.0066\nmodel\t173\t0.1289\t0.0068\nmodel\t174\t0.1293\t0.007\nmodel\t175\t0.13\t0.0072\nmodel\t176\t0.13\t0.0072\nmodel\t177\t0.1306\t0.0072\nmodel\t178\t0.1306\t0.0071\nmodel\t179\t0.131\t0.0071\nmodel\t180\t0.1316\t0.0071\nmodel\t181\t0.1322\t0.007\nmodel\t182\t0.1323\t0.007\nmodel\t183\t0.1328\t0.0069\nmodel\t184\t0.1327\t0.0069\nmodel\t185\t0.1327\t0.0069\nmodel\t186\t0.1328\t0.0068\nmodel\t187\t0.1328\t0.0068\nmodel\t188\t0.1338\t0.0068\nmodel\t189\t0.1332\t0.0067\nmodel\t190\t0.1336\t0.0067\nmodel\t191\t0.133\t0.0067\nmodel\t192\t0.1328\t0.0066\nmodel\t193\t0.1326\t0.0068\nmodel\t194\t0.1321\t0.0068\nmodel\t195\t0.1325\t0.0067\nmodel\t196\t0.1333\t0.0067\nmodel\t197\t0.134\t0.0067\nmodel\t198\t0.1348\t0.0066\nmodel\t199\t0.1348\t0.0066\nmodel\t200\t0.1348\t0.0066\nmodel\t201\t0.1349\t0.0065\nmodel\t202\t0.1351\t0.0065\nmodel\t203\t0.135\t0.0067\nmodel\t204\t0.1355\t0.0066\nmodel\t205\t0.1365\t0.0068\nmodel\t206\t0.1364\t0.0068\nmodel\t207\t0.1361\t0.0068\nmodel\t208\t0.1361\t0.0067\nmodel\t209\t0.1361\t0.0067\nmodel\t210\t0.1365\t0.0067\nmodel\t211\t0.1366\t0.0067\nmodel\t212\t0.1384\t0.0066\nmodel\t213\t0.1386\t0.0066\nmodel\t214\t0.1388\t0.0066\nmodel\t215\t0.1394\t0.0065\nmodel\t216\t0.14\t0.0065\nmodel\t217\t0.1409\t0.0065\nmodel\t218\t0.1416\t0.0064\nmodel\t219\t0.1414\t0.0066\nmodel\t220\t0.1419\t0.0066\nmodel\t221\t0.1424\t0.0066\nmodel\t222\t0.1422\t0.0065\nmodel\t223\t0.1418\t0.0065\nmodel\t224\t0.1426\t0.0065\nmodel\t225\t0.1431\t0.0064\nmodel\t226\t0.1437\t0.0064\nmodel\t227\t0.1441\t0.0064\nmodel\t228\t0.1445\t0.0064\nmodel\t229\t0.1446\t0.0063\nmodel\t230\t0.1449\t0.0065\nmodel\t231\t0.1461\t0.0065\nmodel\t232\t0.1459\t0.0066\nmodel\t233\t0.1462\t0.0066\nmodel\t234\t0.1463\t0.0066\nmodel\t235\t0.1464\t0.0065\nmodel\t236\t0.147\t0.0065\nmodel\t237\t0.1474\t0.0065\nmodel\t238\t0.1479\t0.0065\nmodel\t239\t0.1478\t0.0064\nmodel\t240\t0.1485\t0.0064\nmodel\t241\t0.149\t0.0064\nmodel\t242\t0.149\t0.0064\nmodel\t243\t0.1497\t0.0063\nmodel\t244\t0.1499\t0.0063\nmodel\t245\t0.1501\t0.0063\nmodel\t246\t0.1503\t0.0063\nmodel\t247\t0.1499\t0.0062\nmodel\t248\t0.1508\t0.0062\nmodel\t249\t0.1511\t0.0062\nmodel\t250\t0.151\t0.0062\nmodel\t251\t0.1518\t0.0061\nmodel\t252\t0.1513\t0.0061\nmodel\t253\t0.1518\t0.0061\nmodel\t254\t0.1518\t0.0061\nmodel\t255\t0.1519\t0.006\nmodel\t256\t0.1521\t0.006\nmodel\t257\t0.1523\t0.006\nmodel\t258\t0.1525\t0.006\nmodel\t259\t0.1523\t0.0059\nmodel\t260\t0.1528\t0.0059\nmodel\t261\t0.1533\t0.0059\nmodel\t262\t0.1534\t0.0059\nmodel\t263\t0.1544\t0.0058\nmodel\t264\t0.1547\t0.0058\nmodel\t265\t0.155\t0.0058\nmodel\t266\t0.155\t0.0059\nmodel\t267\t0.1556\t0.0059\nmodel\t268\t0.1558\t0.0059\nmodel\t269\t0.157\t0.0059\nmodel\t270\t0.1573\t0.0059\nmodel\t271\t0.1572\t0.0058\nmodel\t272\t0.1576\t0.0058\nmodel\t273\t0.1581\t0.0058\nmodel\t274\t0.158\t0.0058\nmodel\t275\t0.1582\t0.0057\nmodel\t276\t0.1585\t0.0057\nmodel\t277\t0.159\t0.0057\nmodel\t278\t0.1585\t0.0058\nmodel\t279\t0.1588\t0.0058\nmodel\t280\t0.159\t0.0058\nmodel\t281\t0.1592\t0.0058\nmodel\t282\t0.1595\t0.0058\nmodel\t283\t0.1601\t0.0057\nmodel\t284\t0.1606\t0.0057\nmodel\t285\t0.1609\t0.0058\nmodel\t286\t0.1614\t0.0058\nmodel\t287\t0.1615\t0.0058\nmodel\t288\t0.1624\t0.0058\nmodel\t289\t0.1627\t0.0058\nmodel\t290\t0.1627\t0.0058\nmodel\t291\t0.163\t0.0057\nmodel\t292\t0.1637\t0.0057\nmodel\t293\t0.164\t0.0057\nmodel\t294\t0.164\t0.0058\nmodel\t295\t0.1643\t0.0058\nmodel\t296\t0.1645\t0.0058\nmodel\t297\t0.1647\t0.0058\nmodel\t298\t0.1648\t0.0057\nmodel\t299\t0.1645\t0.0057\nmodel\t300\t0.1648\t0.0057\nmodel\t301\t0.1656\t0.0057\nmodel\t302\t0.166\t0.0057\nmodel\t303\t0.1662\t0.0056\nmodel\t304\t0.1664\t0.0056\nmodel\t305\t0.1669\t0.0057\nmodel\t306\t0.167\t0.0057\nmodel\t307\t0.1674\t0.0057\nmodel\t308\t0.1672\t0.0057\nmodel\t309\t0.1675\t0.0057\nmodel\t310\t0.1679\t0.0057\nmodel\t311\t0.1679\t0.0056\nmodel\t312\t0.168\t0.0056\nmodel\t313\t0.1679\t0.0056\nmodel\t314\t0.168\t0.0056\nmodel\t315\t0.1679\t0.0056\nmodel\t316\t0.168\t0.0055\nmodel\t317\t0.1686\t0.0055\nmodel\t318\t0.1686\t0.0055\nmodel\t319\t0.1691\t0.0055\nmodel\t320\t0.1694\t0.0055\nmodel\t321\t0.1694\t0.0056\nmodel\t322\t0.1702\t0.0056\nmodel\t323\t0.1704\t0.0056\nmodel\t324\t0.1709\t0.0055\nmodel\t325\t0.1712\t0.0055\nmodel\t326\t0.1717\t0.0055\nmodel\t327\t0.1718\t0.0055\nmodel\t328\t0.1723\t0.0056\nmodel\t329\t0.1724\t0.0056\nmodel\t330\t0.1733\t0.0056\nmodel\t331\t0.1732\t0.0057\nmodel\t332\t0.173\t0.0057\nmodel\t333\t0.173\t0.0057\nmodel\t334\t0.1732\t0.0056\nmodel\t335\t0.1741\t0.0056\nmodel\t336\t0.1741\t0.0056\nmodel\t337\t0.1743\t0.0056\nmodel\t338\t0.175\t0.0056\nmodel\t339\t0.1749\t0.0056\nmodel\t340\t0.1745\t0.0055\nmodel\t341\t0.1751\t0.0057\nmodel\t342\t0.1749\t0.0056\nmodel\t343\t0.1748\t0.0056\nmodel\t344\t0.1752\t0.0056\nmodel\t345\t0.1752\t0.0056\nmodel\t346\t0.1752\t0.0056\nmodel\t347\t0.1751\t0.0056\nmodel\t348\t0.175\t0.0055\nmodel\t349\t0.1753\t0.0056\nmodel\t350\t0.1755\t0.0056\nmodel\t351\t0.1755\t0.0056\nmodel\t352\t0.1756\t0.0056\nmodel\t353\t0.1755\t0.0056\nmodel\t354\t0.1759\t0.0056\nmodel\t355\t0.1763\t0.0057\nmodel\t356\t0.1763\t0.0057\nmodel\t357\t0.1765\t0.0056\nmodel\t358\t0.1766\t0.0056\nmodel\t359\t0.1764\t0.0056\nmodel\t360\t0.1764\t0.0056\nmodel\t361\t0.1767\t0.0056\nmodel\t362\t0.177\t0.0056\nmodel\t363\t0.1767\t0.0055\nmodel\t364\t0.1768\t0.0055\nmodel\t365\t0.1766\t0.0055\nmodel\t366\t0.1768\t0.0055\nmodel\t367\t0.1769\t0.0055\nmodel\t368\t0.1767\t0.0055\nmodel\t369\t0.177\t0.0055\nmodel\t370\t0.177\t0.0054\nmodel\t371\t0.1768\t0.0054\nmodel\t372\t0.1766\t0.0054\nmodel\t373\t0.1766\t0.0054\nmodel\t374\t0.1768\t0.0054\nmodel\t375\t0.1769\t0.0054\nmodel\t376\t0.1773\t0.0054\nmodel\t377\t0.1772\t0.0053\nmodel\t378\t0.1775\t0.0053\nmodel\t379\t0.1777\t0.0053\nmodel\t380\t0.1779\t0.0054\nmodel\t381\t0.1778\t0.0054\nmodel\t382\t0.178\t0.0054\nmodel\t383\t0.1784\t0.0055\nmodel\t384\t0.1786\t0.0055\nmodel\t385\t0.1786\t0.0055\nmodel\t386\t0.1784\t0.0054\nmodel\t387\t0.1786\t0.0055\nmodel\t388\t0.1786\t0.0055\nmodel\t389\t0.179\t0.0056\nmodel\t390\t0.1795\t0.0056\nmodel\t391\t0.1796\t0.0056\nmodel\t392\t0.1795\t0.0056\nmodel\t393\t0.1798\t0.0056\nmodel\t394\t0.1802\t0.0055\nmodel\t395\t0.1798\t0.0055\nmodel\t396\t0.1797\t0.0055\nmodel\t397\t0.1796\t0.0055\nmodel\t398\t0.1796\t0.0055\nmodel\t399\t0.1794\t0.0055\nmodel\t400\t0.1796\t0.0055\nmodel\t401\t0.1793\t0.0054\nmodel\t402\t0.1793\t0.0054\nmodel\t403\t0.1796\t0.0054\nmodel\t404\t0.1796\t0.0054\nmodel\t405\t0.1799\t0.0054\nmodel\t406\t0.1799\t0.0056\nmodel\t407\t0.1807\t0.0056\nmodel\t408\t0.1808\t0.0056\nmodel\t409\t0.1806\t0.0056\nmodel\t410\t0.1805\t0.0058\nmodel\t411\t0.1804\t0.0058\nmodel\t412\t0.1803\t0.0058\nmodel\t413\t0.1803\t0.0058\nmodel\t414\t0.1805\t0.0058\nmodel\t415\t0.1803\t0.0058\nmodel\t416\t0.1804\t0.0059\nmodel\t417\t0.1805\t0.0059\nmodel\t418\t0.1808\t0.006\nmodel\t419\t0.1805\t0.0059\nmodel\t420\t0.1806\t0.0059\nmodel\t421\t0.1808\t0.0059\nmodel\t422\t0.1808\t0.0059\nmodel\t423\t0.1807\t0.006\nmodel\t424\t0.1806\t0.006\nmodel\t425\t0.1813\t0.006\nmodel\t426\t0.1813\t0.006\nmodel\t427\t0.1815\t0.0059\nmodel\t428\t0.1817\t0.0059\nmodel\t429\t0.1817\t0.0059\nmodel\t430\t0.1815\t0.0059\nmodel\t431\t0.1816\t0.0059\nmodel\t432\t0.1816\t0.0059\nmodel\t433\t0.1818\t0.0059\nmodel\t434\t0.1825\t0.0058\nmodel\t435\t0.1822\t0.0058\nmodel\t436\t0.1821\t0.0058\nmodel\t437\t0.1827\t0.0058\nmodel\t438\t0.1828\t0.0058\ndefault\t0\t0.1364\t0.0455\ndefault\t1\t0.0952\t0.0238\ndefault\t2\t0.0625\t0.0156\ndefault\t3\t0.0449\t0.0112\ndefault\t4\t0.0367\t0.0092\ndefault\t5\t0.0746\t0.0075\ndefault\t6\t0.0764\t0.0064\ndefault\t7\t0.0707\t0.0054\ndefault\t8\t0.0825\t0.0049\ndefault\t9\t0.0844\t0.0089\ndefault\t10\t0.098\t0.0082\ndefault\t11\t0.094\t0.0075\ndefault\t12\t0.0979\t0.007\ndefault\t13\t0.0965\t0.0064\ndefault\t14\t0.0997\t0.006\ndefault\t15\t0.0974\t0.0057\ndefault\t16\t0.0987\t0.008\ndefault\t17\t0.101\t0.0076\ndefault\t18\t0.0976\t0.0119\ndefault\t19\t0.0984\t0.0134\ndefault\t20\t0.1036\t0.0127\ndefault\t21\t0.1026\t0.0121\ndefault\t22\t0.1054\t0.0115\ndefault\t23\t0.1058\t0.0128\ndefault\t24\t0.1123\t0.0158\ndefault\t25\t0.1115\t0.0152\ndefault\t26\t0.1078\t0.0147\ndefault\t27\t0.1102\t0.0142\ndefault\t28\t0.112\t0.0151\ndefault\t29\t0.1129\t0.0147\ndefault\t30\t0.1105\t0.0156\ndefault\t31\t0.1132\t0.015\ndefault\t32\t0.1111\t0.0159\ndefault\t33\t0.1086\t0.0153\ndefault\t34\t0.1074\t0.0148\ndefault\t35\t0.1083\t0.0156\ndefault\t36\t0.1075\t0.0164\ndefault\t37\t0.1076\t0.016\ndefault\t38\t0.1073\t0.0156\ndefault\t39\t0.1073\t0.0163\ndefault\t40\t0.1072\t0.018\ndefault\t41\t0.1075\t0.0176\ndefault\t42\t0.1072\t0.0172\ndefault\t43\t0.1056\t0.0168\ndefault\t44\t0.1057\t0.0175\ndefault\t45\t0.1043\t0.018\ndefault\t46\t0.1042\t0.0177\ndefault\t47\t0.1034\t0.0172\ndefault\t48\t0.103\t0.0169\ndefault\t49\t0.1037\t0.0166\ndefault\t50\t0.1033\t0.0162\ndefault\t51\t0.1013\t0.0159\ndefault\t52\t0.1008\t0.0156\ndefault\t53\t0.1004\t0.0153\ndefault\t54\t0.1003\t0.015\ndefault\t55\t0.101\t0.0148\ndefault\t56\t0.1021\t0.0145\ndefault\t57\t0.1027\t0.015\ndefault\t58\t0.1022\t0.0154\ndefault\t59\t0.1034\t0.0152\ndefault\t60\t0.1026\t0.0171\ndefault\t61\t0.1024\t0.0175\ndefault\t62\t0.1024\t0.018\ndefault\t63\t0.1016\t0.0184\ndefault\t64\t0.0999\t0.0181\ndefault\t65\t0.101\t0.0178\ndefault\t66\t0.1011\t0.0175\ndefault\t67\t0.1008\t0.0185\ndefault\t68\t0.1004\t0.0182\ndefault\t69\t0.0992\t0.0186\ndefault\t70\t0.0984\t0.0183\ndefault\t71\t0.0992\t0.018\ndefault\t72\t0.1008\t0.0178\ndefault\t73\t0.1023\t0.0175\ndefault\t74\t0.1029\t0.0185\ndefault\t75\t0.1031\t0.0182\ndefault\t76\t0.1034\t0.0202\ndefault\t77\t0.104\t0.02\ndefault\t78\t0.1044\t0.0198\ndefault\t79\t0.1054\t0.0201\ndefault\t80\t0.1048\t0.0204\ndefault\t81\t0.1035\t0.0202\ndefault\t82\t0.1023\t0.0205\ndefault\t83\t0.1016\t0.0202\ndefault\t84\t0.1013\t0.0199\ndefault\t85\t0.1017\t0.0197\ndefault\t86\t0.1011\t0.021\ndefault\t87\t0.1014\t0.0213\ndefault\t88\t0.1009\t0.0211\ndefault\t89\t0.1011\t0.0209\ndefault\t90\t0.1015\t0.0207\ndefault\t91\t0.1011\t0.0215\ndefault\t92\t0.1023\t0.0217\ndefault\t93\t0.1043\t0.0214\ndefault\t94\t0.1046\t0.0212\ndefault\t95\t0.1044\t0.0214\ndefault\t96\t0.1037\t0.0212\ndefault\t97\t0.1036\t0.021\ndefault\t98\t0.1038\t0.0208\ndefault\t99\t0.1026\t0.0214\ndefault\t100\t0.1028\t0.022\ndefault\t101\t0.103\t0.0222\ndefault\t102\t0.1028\t0.022\ndefault\t103\t0.1043\t0.0222\ndefault\t104\t0.1034\t0.0224\ndefault\t105\t0.1046\t0.0222\ndefault\t106\t0.104\t0.0224\ndefault\t107\t0.104\t0.0227\ndefault\t108\t0.105\t0.0224\ndefault\t109\t0.1061\t0.0223\ndefault\t110\t0.1064\t0.0225\ndefault\t111\t0.1079\t0.0238\ndefault\t112\t0.1077\t0.0236\ndefault\t113\t0.1075\t0.0238\ndefault\t114\t0.1072\t0.0243\ndefault\t115\t0.1063\t0.0241\ndefault\t116\t0.1063\t0.024\ndefault\t117\t0.1057\t0.0245\ndefault\t118\t0.105\t0.0246\ndefault\t119\t0.1048\t0.0244\ndefault\t120\t0.1054\t0.0245\ndefault\t121\t0.1048\t0.0247\ndefault\t122\t0.1061\t0.0245\ndefault\t123\t0.1056\t0.0243\ndefault\t124\t0.1061\t0.0241\ndefault\t125\t0.1064\t0.0239\ndefault\t126\t0.1071\t0.0238\ndefault\t127\t0.1072\t0.0236\ndefault\t128\t0.1075\t0.0234\ndefault\t129\t0.107\t0.0232\ndefault\t130\t0.1079\t0.0237\ndefault\t131\t0.1075\t0.0239\ndefault\t132\t0.1083\t0.0237\ndefault\t133\t0.1081\t0.0242\ndefault\t134\t0.1083\t0.0243\ndefault\t135\t0.1085\t0.0245\ndefault\t136\t0.1087\t0.0246\ndefault\t137\t0.1093\t0.0245\ndefault\t138\t0.1092\t0.0246\ndefault\t139\t0.109\t0.0254\ndefault\t140\t0.1086\t0.0255\ndefault\t141\t0.1085\t0.0253\ndefault\t142\t0.1087\t0.0261\ndefault\t143\t0.109\t0.0262\ndefault\t144\t0.1084\t0.026\ndefault\t145\t0.1082\t0.0262\ndefault\t146\t0.1075\t0.026\ndefault\t147\t0.1077\t0.0258\ndefault\t148\t0.1073\t0.0262\ndefault\t149\t0.1075\t0.0272\ndefault\t150\t0.1073\t0.0279\ndefault\t151\t0.1068\t0.0286\ndefault\t152\t0.1073\t0.0287\ndefault\t153\t0.1076\t0.0285\ndefault\t154\t0.1072\t0.0289\ndefault\t155\t0.1068\t0.029\ndefault\t156\t0.1067\t0.03\ndefault\t157\t0.1072\t0.0301\ndefault\t158\t0.1071\t0.0304\ndefault\t159\t0.1084\t0.0308\ndefault\t160\t0.108\t0.0309\ndefault\t161\t0.1087\t0.0307\ndefault\t162\t0.1088\t0.0308\ndefault\t163\t0.1087\t0.0306\ndefault\t164\t0.1085\t0.0304\ndefault\t165\t0.1081\t0.0305\ndefault\t166\t0.108\t0.0303\ndefault\t167\t0.1084\t0.0301\ndefault\t168\t0.1088\t0.0302\ndefault\t169\t0.1086\t0.0303\ndefault\t170\t0.1087\t0.0306\ndefault\t171\t0.1096\t0.0307\ndefault\t172\t0.109\t0.031\ndefault\t173\t0.1089\t0.0323\ndefault\t174\t0.1088\t0.0326\ndefault\t175\t0.1089\t0.0326\ndefault\t176\t0.1091\t0.0325\ndefault\t177\t0.1087\t0.0333\ndefault\t178\t0.1083\t0.0338\ndefault\t179\t0.1087\t0.0336\ndefault\t180\t0.1093\t0.0337\ndefault\t181\t0.1099\t0.0345\ndefault\t182\t0.1098\t0.035\ndefault\t183\t0.1098\t0.0348\ndefault\t184\t0.1101\t0.0346\ndefault\t185\t0.1099\t0.0346\ndefault\t186\t0.1108\t0.0346\ndefault\t187\t0.1104\t0.0346\ndefault\t188\t0.1107\t0.0347\ndefault\t189\t0.1109\t0.0345\ndefault\t190\t0.1107\t0.0345\ndefault\t191\t0.1108\t0.0348\ndefault\t192\t0.1109\t0.0348\ndefault\t193\t0.1107\t0.0349\ndefault\t194\t0.1112\t0.035\ndefault\t195\t0.1114\t0.0352\ndefault\t196\t0.111\t0.0359\ndefault\t197\t0.1108\t0.0361\ndefault\t198\t0.1108\t0.0362\ndefault\t199\t0.1104\t0.0364\ndefault\t200\t0.1104\t0.0365\ndefault\t201\t0.1104\t0.0367\ndefault\t202\t0.1105\t0.0374\ndefault\t203\t0.1104\t0.0375\ndefault\t204\t0.1105\t0.0377\ndefault\t205\t0.1107\t0.0383\ndefault\t206\t0.1111\t0.0386\ndefault\t207\t0.1106\t0.0388\ndefault\t208\t0.1104\t0.0386\ndefault\t209\t0.1109\t0.0388\ndefault\t210\t0.1109\t0.0388\ndefault\t211\t0.1111\t0.0387\ndefault\t212\t0.1113\t0.0385\ndefault\t213\t0.1116\t0.0385\ndefault\t214\t0.1111\t0.0385\ndefault\t215\t0.111\t0.0387\ndefault\t216\t0.1105\t0.0386\ndefault\t217\t0.1106\t0.0384\ndefault\t218\t0.1104\t0.0384\ndefault\t219\t0.1104\t0.0382\ndefault\t220\t0.1106\t0.0384\ndefault\t221\t0.1107\t0.0383\ndefault\t222\t0.111\t0.0383\ndefault\t223\t0.1107\t0.0381\ndefault\t224\t0.1116\t0.0384\ndefault\t225\t0.1125\t0.0386\ndefault\t226\t0.1124\t0.0384\ndefault\t227\t0.1125\t0.0392\ndefault\t228\t0.1125\t0.0394\ndefault\t229\t0.1123\t0.0398\ndefault\t230\t0.1122\t0.0402\ndefault\t231\t0.1124\t0.0404\ndefault\t232\t0.1134\t0.0404\ndefault\t233\t0.1135\t0.0406\ndefault\t234\t0.1133\t0.0411\ndefault\t235\t0.1134\t0.0416\ndefault\t236\t0.1131\t0.0416\ndefault\t237\t0.1128\t0.0422\ndefault\t238\t0.1129\t0.0424\ndefault\t239\t0.1128\t0.0433\ndefault\t240\t0.1125\t0.0433\ndefault\t241\t0.1125\t0.0436\ndefault\t242\t0.1126\t0.0436\ndefault\t243\t0.1129\t0.0436\ndefault\t244\t0.1129\t0.0436\ndefault\t245\t0.1124\t0.0441\ndefault\t246\t0.1127\t0.0445\ndefault\t247\t0.1129\t0.0445\ndefault\t248\t0.1131\t0.0448\ndefault\t249\t0.113\t0.045\ndefault\t250\t0.1127\t0.0458\ndefault\t251\t0.1133\t0.046\ndefault\t252\t0.113\t0.0458\ndefault\t253\t0.1129\t0.0461\ndefault\t254\t0.1126\t0.0462\ndefault\t255\t0.1124\t0.0464\ndefault\t256\t0.1121\t0.0466\ndefault\t257\t0.1124\t0.047\ndefault\t258\t0.113\t0.0472\ndefault\t259\t0.1127\t0.0472\ndefault\t260\t0.1126\t0.048\ndefault\t261\t0.1125\t0.0478\ndefault\t262\t0.1124\t0.0478\ndefault\t263\t0.1121\t0.0477\ndefault\t264\t0.1129\t0.048\ndefault\t265\t0.1128\t0.048\ndefault\t266\t0.1127\t0.0483\ndefault\t267\t0.1126\t0.0486\ndefault\t268\t0.1125\t0.0489\ndefault\t269\t0.1128\t0.049\ndefault\t270\t0.1124\t0.0492\ndefault\t271\t0.1125\t0.0491\ndefault\t272\t0.1126\t0.0489\ndefault\t273\t0.1125\t0.0495\ndefault\t274\t0.1123\t0.0498\ndefault\t275\t0.1123\t0.0499\ndefault\t276\t0.1124\t0.0502\ndefault\t277\t0.1122\t0.05\ndefault\t278\t0.112\t0.0505\ndefault\t279\t0.1116\t0.0506\ndefault\t280\t0.1117\t0.0508\ndefault\t281\t0.1118\t0.0506\ndefault\t282\t0.1122\t0.0505\ndefault\t283\t0.1124\t0.0504\ndefault\t284\t0.1123\t0.0507\ndefault\t285\t0.1122\t0.0508\ndefault\t286\t0.112\t0.0509\ndefault\t287\t0.1116\t0.0512\ndefault\t288\t0.1116\t0.0514\ndefault\t289\t0.1122\t0.0513\ndefault\t290\t0.1122\t0.0515\ndefault\t291\t0.112\t0.0515\ndefault\t292\t0.1122\t0.0514\ndefault\t293\t0.1118\t0.052\ndefault\t294\t0.1116\t0.0521\ndefault\t295\t0.1114\t0.0524\ndefault\t296\t0.1115\t0.0528\ndefault\t297\t0.1117\t0.0529\ndefault\t298\t0.1118\t0.0531\ndefault\t299\t0.1119\t0.0532\ndefault\t300\t0.1119\t0.0536\ndefault\t301\t0.1123\t0.0537\ndefault\t302\t0.1121\t0.0542\ndefault\t303\t0.112\t0.0544\ndefault\t304\t0.1119\t0.0547\ndefault\t305\t0.112\t0.0546\ndefault\t306\t0.1121\t0.0549\ndefault\t307\t0.1118\t0.0551\ndefault\t308\t0.1121\t0.0556\ndefault\t309\t0.1121\t0.0555\ndefault\t310\t0.112\t0.0559\ndefault\t311\t0.1119\t0.0561\ndefault\t312\t0.1119\t0.0561\ndefault\t313\t0.1117\t0.0564\ndefault\t314\t0.1114\t0.0568\ndefault\t315\t0.1112\t0.0569\ndefault\t316\t0.1109\t0.0568\ndefault\t317\t0.1107\t0.0569\ndefault\t318\t0.1105\t0.0571\ndefault\t319\t0.1102\t0.0578\ndefault\t320\t0.1099\t0.0584\ndefault\t321\t0.1097\t0.0586\ndefault\t322\t0.11\t0.059\ndefault\t323\t0.1098\t0.0593\ndefault\t324\t0.1095\t0.0592\ndefault\t325\t0.1094\t0.0591\ndefault\t326\t0.1092\t0.0599\ndefault\t327\t0.1095\t0.0604\ndefault\t328\t0.1094\t0.0604\ndefault\t329\t0.1093\t0.0607\ndefault\t330\t0.1095\t0.0609\ndefault\t331\t0.1093\t0.0613\ndefault\t332\t0.1091\t0.0613\ndefault\t333\t0.1093\t0.0619\ndefault\t334\t0.1097\t0.0619\ndefault\t335\t0.1096\t0.0619\ndefault\t336\t0.1093\t0.0619\ndefault\t337\t0.1093\t0.0624\ndefault\t338\t0.1093\t0.0625\ndefault\t339\t0.1092\t0.0625\ndefault\t340\t0.1094\t0.0626\ndefault\t341\t0.1095\t0.0627\ndefault\t342\t0.1093\t0.0624\ndefault\t343\t0.1092\t0.0626\ndefault\t344\t0.1093\t0.0625\ndefault\t345\t0.1093\t0.0629\ndefault\t346\t0.1095\t0.0632\ndefault\t347\t0.1097\t0.0633\ndefault\t348\t0.1099\t0.0635\ndefault\t349\t0.1098\t0.0636\ndefault\t350\t0.1098\t0.0636\ndefault\t351\t0.1098\t0.0638\ndefault\t352\t0.1099\t0.064\ndefault\t353\t0.1101\t0.0641\ndefault\t354\t0.1101\t0.064\ndefault\t355\t0.11\t0.0644\ndefault\t356\t0.1101\t0.065\ndefault\t357\t0.1102\t0.0649\ndefault\t358\t0.1102\t0.0651\ndefault\t359\t0.1103\t0.0651\ndefault\t360\t0.1099\t0.0651\ndefault\t361\t0.1099\t0.0652\ndefault\t362\t0.1096\t0.0653\ndefault\t363\t0.1098\t0.0656\ndefault\t364\t0.1101\t0.0657\ndefault\t365\t0.1102\t0.0659\ndefault\t366\t0.1103\t0.0658\ndefault\t367\t0.1103\t0.066\ndefault\t368\t0.1104\t0.0665\ndefault\t369\t0.1104\t0.0667\ndefault\t370\t0.1102\t0.067\ndefault\t371\t0.1102\t0.0671\ndefault\t372\t0.11\t0.0674\ndefault\t373\t0.1099\t0.0677\ndefault\t374\t0.1104\t0.0677\ndefault\t375\t0.1105\t0.0682\ndefault\t376\t0.1104\t0.0684\ndefault\t377\t0.1107\t0.0684\ndefault\t378\t0.1107\t0.0685\ndefault\t379\t0.1109\t0.0691\ndefault\t380\t0.1107\t0.0695\ndefault\t381\t0.1105\t0.0696\ndefault\t382\t0.1107\t0.0696\ndefault\t383\t0.1108\t0.0696\ndefault\t384\t0.1109\t0.0696\ndefault\t385\t0.111\t0.0698\ndefault\t386\t0.1108\t0.0698\ndefault\t387\t0.1106\t0.0699\ndefault\t388\t0.1107\t0.07\ndefault\t389\t0.1108\t0.0705\ndefault\t390\t0.111\t0.071\ndefault\t391\t0.1108\t0.0711\ndefault\t392\t0.1108\t0.0713\ndefault\t393\t0.111\t0.0716\ndefault\t394\t0.1108\t0.0719\ndefault\t395\t0.1108\t0.0724\ndefault\t396\t0.1107\t0.0729\ndefault\t397\t0.1106\t0.0732\ndefault\t398\t0.1104\t0.0735\ndefault\t399\t0.1103\t0.0738\ndefault\t400\t0.1103\t0.0739\ndefault\t401\t0.1103\t0.0739\ndefault\t402\t0.1106\t0.0739\ndefault\t403\t0.1103\t0.0741\ndefault\t404\t0.1103\t0.074\ndefault\t405\t0.1101\t0.0742\ndefault\t406\t0.11\t0.0743\ndefault\t407\t0.1101\t0.0747\ndefault\t408\t0.11\t0.0751\ndefault\t409\t0.11\t0.0754\ndefault\t410\t0.1101\t0.0755\ndefault\t411\t0.1099\t0.0757\ndefault\t412\t0.1098\t0.0758\ndefault\t413\t0.11\t0.0758\ndefault\t414\t0.11\t0.0763\ndefault\t415\t0.1101\t0.0763\ndefault\t416\t0.1099\t0.0765\ndefault\t417\t0.1097\t0.0767\ndefault\t418\t0.1097\t0.0769\ndefault\t419\t0.1096\t0.0767\ndefault\t420\t0.1095\t0.077\ndefault\t421\t0.1096\t0.0774\ndefault\t422\t0.1096\t0.0776\ndefault\t423\t0.1095\t0.0778\ndefault\t424\t0.1094\t0.0781\ndefault\t425\t0.1093\t0.0782\ndefault\t426\t0.1091\t0.0782\ndefault\t427\t0.1093\t0.0784\ndefault\t428\t0.1094\t0.0785\ndefault\t429\t0.1096\t0.0785\ndefault\t430\t0.1096\t0.0791\ndefault\t431\t0.1096\t0.0795\ndefault\t432\t0.1096\t0.0797\ndefault\t433\t0.1099\t0.0797\ndefault\t434\t0.1098\t0.0799\ndefault\t435\t0.1098\t0.0799\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=47",
+              "$$hashKey": "object:8894"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=48",
+              "$$hashKey": "object:8895"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=49",
+              "$$hashKey": "object:8896"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=50",
+              "$$hashKey": "object:8897"
+            },
+            {
+              "jobUrl": "http://fc18ab2241ca:4040/jobs/job?id=51",
+              "$$hashKey": "object:8898"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634919470889_809369165",
+      "id": "paragraph_1634919470889_809369165",
+      "dateCreated": "2021-10-22T16:17:50+0000",
+      "dateStarted": "2021-10-23T10:04:48+0000",
+      "dateFinished": "2021-10-23T10:04:55+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:328"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {}
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1634915879700_1036253523",
+      "id": "paragraph_1634915879700_1036253523",
+      "dateCreated": "2021-10-22T15:17:59+0000",
+      "status": "READY",
+      "$$hashKey": "object:329"
+    }
+  ],
+  "name": "made-lesson-6-spark-df",
+  "id": "2GHUEUP6E",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/made-lesson-6-spark-df"
+}
