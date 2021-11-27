@@ -1,0 +1,1985 @@
+{
+  "paragraphs": [
+    {
+      "title": "Вычитаем датасет",
+      "text": "val df \u003d spark.read.option(\"inferSchema\", \"true\").option(\"header\", \"true\").csv(\"/notebook/tripadvisor_hotel_reviews.csv\").sample(0.1, 0)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:28:31.584",
+      "progress": 100,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [Review: string, Rating: int]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d2"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d3"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605337237888_-1438955824",
+      "id": "paragraph_1605337237888_-1438955824",
+      "dateCreated": "2020-11-14 07:00:37.888",
+      "dateStarted": "2021-11-27 09:28:31.612",
+      "dateFinished": "2021-11-27 09:28:32.326",
+      "status": "FINISHED"
+    },
+    {
+      "text": "df.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:28:35.002",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+------+\n|              Review|Rating|\n+--------------------+------+\n|service service s...|     5|\n|good location poo...|     2|\n|average nice stay...|     4|\n|austin powers dec...|     2|\n|remarkable hotel ...|     5|\n|okay not amazing ...|     3|\n|holiday inn, 1st ...|     2|\n|worst hotel exper...|     1|\n|excellent stay st...|     4|\n|nice touches arri...|     5|\n|funky boutique ho...|     3|\n|good place stay s...|     4|\n|stay plenty nice ...|     1|\n|seattle stay qual...|     3|\n|great hotel great...|     5|\n|great priceline r...|     4|\n|wonderful time sh...|     5|\n|nice hotel stayed...|     4|\n|careful book, car...|     3|\n|loved sheraton to...|     5|\n+--------------------+------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d4"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605337389003_-369172085",
+      "id": "paragraph_1605337389003_-369172085",
+      "dateCreated": "2020-11-14 07:03:09.003",
+      "dateStarted": "2021-11-27 09:28:35.026",
+      "dateFinished": "2021-11-27 09:28:35.435",
+      "status": "FINISHED"
+    },
+    {
+      "title": "Построим пайплайн подготовки фичей",
+      "text": "import org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.feature.{HashingTF, IDF, RegexTokenizer}\n\n\nval preprocessingPipe \u003d new Pipeline()\n    .setStages(Array(\n        new RegexTokenizer()\n        .setInputCol(\"Review\")\n        .setOutputCol(\"tokenized\")\n        .setPattern(\"\\\\W+\"),\n        new HashingTF()\n            .setInputCol(\"tokenized\")\n            .setOutputCol(\"tf\")\n            .setBinary(true)\n            .setNumFeatures(1000),\n        new HashingTF()\n            .setInputCol(\"tokenized\")\n            .setOutputCol(\"tf2\")\n            .setNumFeatures(1000),\n        new IDF()\n            .setInputCol(\"tf2\")\n            .setOutputCol(\"tfidf\")\n    ))\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:33:50.051",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.ml.Pipeline\nimport org.apache.spark.ml.feature.{HashingTF, IDF, RegexTokenizer}\n\u001b[1m\u001b[34mpreprocessingPipe\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.Pipeline\u001b[0m \u003d pipeline_a018030ec4c2\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605337435259_300814897",
+      "id": "paragraph_1605337435259_300814897",
+      "dateCreated": "2020-11-14 07:03:55.259",
+      "dateStarted": "2021-11-27 09:33:50.067",
+      "dateFinished": "2021-11-27 09:33:51.039",
+      "status": "FINISHED"
+    },
+    {
+      "title": "Разобьем на трейн и тест",
+      "text": "val Array(train, test) \u003d df.randomSplit(Array(0.8, 0.2))\n\n\nval pipe \u003d preprocessingPipe.fit(train)\n\nval trainFeatures \u003d pipe.transform(train).cache()\nval testFeatures \u003d pipe.transform(test)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:33:53.588",
+      "progress": 25,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mtrain\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [Review: string, Rating: int]\n\u001b[1m\u001b[34mtest\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [Review: string, Rating: int]\n\u001b[1m\u001b[34mpipe\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.PipelineModel\u001b[0m \u003d pipeline_a018030ec4c2\n\u001b[1m\u001b[34mtrainFeatures\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [Review: string, Rating: int ... 4 more fields]\n\u001b[1m\u001b[34mtestFeatures\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [Review: string, Rating: int ... 4 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d5"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605337515628_448891660",
+      "id": "paragraph_1605337515628_448891660",
+      "dateCreated": "2020-11-14 07:05:15.628",
+      "dateStarted": "2021-11-27 09:33:53.603",
+      "dateFinished": "2021-11-27 09:33:56.944",
+      "status": "FINISHED"
+    },
+    {
+      "text": "trainFeatures.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:34:52.098",
+      "progress": 100,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+------+--------------------+--------------------+--------------------+--------------------+\n|              Review|Rating|           tokenized|                  tf|                 tf2|               tfidf|\n+--------------------+------+--------------------+--------------------+--------------------+--------------------+\n|15 group lovely t...|     5|[15, group, lovel...|(1000,[52,111,157...|(1000,[52,111,157...|(1000,[52,111,157...|\n|2 weeks fun sun, ...|     5|[2, weeks, fun, s...|(1000,[0,1,4,8,13...|(1000,[0,1,4,8,13...|(1000,[0,1,4,8,13...|\n|3 star hotel star...|     2|[3, star, hotel, ...|(1000,[35,65,109,...|(1000,[35,65,109,...|(1000,[35,65,109,...|\n|5 nights opera st...|     5|[5, nights, opera...|(1000,[1,35,62,10...|(1000,[1,35,62,10...|(1000,[1,35,62,10...|\n|absolutely best h...|     5|[absolutely, best...|(1000,[1,4,25,26,...|(1000,[1,4,25,26,...|(1000,[1,4,25,26,...|\n|acceptable space ...|     3|[acceptable, spac...|(1000,[18,19,25,2...|(1000,[18,19,25,2...|(1000,[18,19,25,2...|\n|amazing 2 weeks b...|     5|[amazing, 2, week...|(1000,[1,5,6,8,18...|(1000,[1,5,6,8,18...|(1000,[1,5,6,8,18...|\n|amazing location ...|     4|[amazing, locatio...|(1000,[1,18,35,79...|(1000,[1,18,35,79...|(1000,[1,18,35,79...|\n|amazing place sta...|     5|[amazing, place, ...|(1000,[1,7,14,35,...|(1000,[1,7,14,35,...|(1000,[1,7,14,35,...|\n|amazing way hotel...|     5|[amazing, way, ho...|(1000,[35,76,118,...|(1000,[35,76,118,...|(1000,[35,76,118,...|\n|amazing, went riu...|     5|[amazing, went, r...|(1000,[1,8,17,18,...|(1000,[1,8,17,18,...|(1000,[1,8,17,18,...|\n|ambilent accommod...|     2|[ambilent, accomm...|(1000,[1,3,7,10,1...|(1000,[1,3,7,10,1...|(1000,[1,3,7,10,1...|\n|americans not, st...|     1|[americans, not, ...|(1000,[1,3,4,7,14...|(1000,[1,3,4,7,14...|(1000,[1,3,4,7,14...|\n|artus great roman...|     5|[artus, great, ro...|(1000,[5,35,76,98...|(1000,[5,35,76,98...|(1000,[5,35,76,98...|\n|awesome ariele ju...|     5|[awesome, ariele,...|(1000,[1,10,12,25...|(1000,[1,10,12,25...|(1000,[1,10,12,25...|\n|bad spa 7 days sp...|     1|[bad, spa, 7, day...|(1000,[3,86,99,18...|(1000,[3,86,99,18...|(1000,[3,86,99,18...|\n|basic accomodatio...|     3|[basic, accomodat...|(1000,[13,61,82,1...|(1000,[13,61,82,1...|(1000,[13,61,82,1...|\n|bavaro princess a...|     5|[bavaro, princess...|(1000,[1,18,29,53...|(1000,[1,18,29,53...|(1000,[1,18,29,53...|\n|bavaro princess e...|     2|[bavaro, princess...|(1000,[1,3,7,9,14...|(1000,[1,3,7,9,14...|(1000,[1,3,7,9,14...|\n|bavaro princess- ...|     4|[bavaro, princess...|(1000,[1,2,3,4,5,...|(1000,[1,2,3,4,5,...|(1000,[1,2,3,4,5,...|\n+--------------------+------+--------------------+--------------------+--------------------+--------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d8"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605337515918_1586834438",
+      "id": "paragraph_1605337515918_1586834438",
+      "dateCreated": "2020-11-14 07:05:15.918",
+      "dateStarted": "2021-11-27 09:34:52.116",
+      "dateFinished": "2021-11-27 09:34:52.425",
+      "status": "FINISHED"
+    },
+    {
+      "title": "Добавим индекс для сообщений в тесте, чтобы потом было проще группировать",
+      "text": "val testFeaturesWithIndex \u003d testFeatures.withColumn(\"id\", monotonicallyIncreasingId()).cache()",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:36:29.773",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[33mwarning: \u001b[0mthere was one deprecation warning; re-run with -deprecation for details\n\u001b[1m\u001b[34mtestFeaturesWithIndex\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [Review: string, Rating: int ... 5 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605337516403_914225079",
+      "id": "paragraph_1605337516403_914225079",
+      "dateCreated": "2020-11-14 07:05:16.404",
+      "dateStarted": "2021-11-27 09:36:29.796",
+      "dateFinished": "2021-11-27 09:36:30.059",
+      "status": "FINISHED"
+    },
+    {
+      "text": "testFeaturesWithIndex.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-26 16:14:42.596",
+      "progress": 100,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+------+--------------------+--------------------+--------------------+--------------------+---+\n|              Review|Rating|           tokenized|                  tf|                 tf2|               tfidf| id|\n+--------------------+------+--------------------+--------------------+--------------------+--------------------+---+\n|amazing location ...|     4|[amazing, locatio...|(1000,[0,1,3,14,2...|(1000,[0,1,3,14,2...|(1000,[0,1,3,14,2...|  0|\n|avoid costs place...|     1|[avoid, costs, pl...|(1000,[18,31,76,8...|(1000,[18,31,76,8...|(1000,[18,31,76,8...|  1|\n|bavaro place stay...|     4|[bavaro, place, s...|(1000,[1,18,25,32...|(1000,[1,18,25,32...|(1000,[1,18,25,32...|  2|\n|bavaro princess b...|     5|[bavaro, princess...|(1000,[0,1,4,6,7,...|(1000,[0,1,4,6,7,...|(1000,[0,1,4,6,7,...|  3|\n|bavaro princess f...|     5|[bavaro, princess...|(1000,[0,1,18,53,...|(1000,[0,1,18,53,...|(1000,[0,1,18,53,...|  4|\n|beautiful beach b...|     5|[beautiful, beach...|(1000,[1,53,116,1...|(1000,[1,53,116,1...|(1000,[1,53,116,1...|  5|\n|best vac, melia 5...|     5|[best, vac, melia...|(1000,[1,3,6,7,9,...|(1000,[1,3,6,7,9,...|(1000,[1,3,6,7,9,...|  6|\n|bit disappointing...|     3|[bit, disappointi...|(1000,[1,4,7,8,18...|(1000,[1,4,7,8,18...|(1000,[1,4,7,8,18...|  7|\n|buy run hotel dec...|     2|[buy, run, hotel,...|(1000,[7,9,14,16,...|(1000,[7,9,14,16,...|(1000,[7,9,14,16,...|  8|\n|castle inn motel ...|     2|[castle, inn, mot...|(1000,[1,8,12,18,...|(1000,[1,8,12,18,...|(1000,[1,8,12,18,...|  9|\n|class, stayed wai...|     5|[class, stayed, w...|(1000,[1,35,84,18...|(1000,[1,35,84,18...|(1000,[1,35,84,18...| 10|\n|clean comfortable...|     3|[clean, comfortab...|(1000,[1,3,6,7,12...|(1000,[1,3,6,7,12...|(1000,[1,3,6,7,12...| 11|\n|comfortable locat...|     4|[comfortable, loc...|(1000,[1,18,23,35...|(1000,[1,18,23,35...|(1000,[1,18,23,35...| 12|\n|convenient locati...|     4|[convenient, loca...|(1000,[1,3,4,6,14...|(1000,[1,3,4,6,14...|(1000,[1,3,4,6,14...| 13|\n|copamarnia clean ...|     5|[copamarnia, clea...|(1000,[1,8,12,18,...|(1000,[1,8,12,18,...|(1000,[1,8,12,18,...| 14|\n|disappointed tour...|     2|[disappointed, to...|(1000,[1,14,18,35...|(1000,[1,14,18,35...|(1000,[1,14,18,35...| 15|\n|disappointing not...|     2|[disappointing, n...|(1000,[1,8,10,18,...|(1000,[1,8,10,18,...|(1000,[1,8,10,18,...| 16|\n|disgrace called w...|     1|[disgrace, called...|(1000,[3,4,6,12,1...|(1000,[3,4,6,12,1...|(1000,[3,4,6,12,1...| 17|\n|disgusted came al...|     1|[disgusted, came,...|(1000,[1,7,18,23,...|(1000,[1,7,18,23,...|(1000,[1,7,18,23,...| 18|\n|dont know lucky, ...|     5|[dont, know, luck...|(1000,[12,18,35,6...|(1000,[12,18,35,6...|(1000,[12,18,35,6...| 19|\n+--------------------+------+--------------------+--------------------+--------------------+--------------------+---+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://d3e44475619b:4040/jobs/job?id\u003d7"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605337516846_-1747534835",
+      "id": "paragraph_1605337516846_-1747534835",
+      "dateCreated": "2020-11-14 07:05:16.846",
+      "dateStarted": "2021-11-26 16:14:42.620",
+      "dateFinished": "2021-11-26 16:14:43.125",
+      "status": "FINISHED"
+    },
+    {
+      "title": "Подберем хэш-функции для MinHash",
+      "text": "import org.apache.spark.ml.feature.MinHashLSH\n\n\nval mh \u003d new MinHashLSH()\n    .setInputCol(\"tf\")\n    .setOutputCol(\"buckets\")\n    .setNumHashTables(7)\n\nval mhModel \u003d mh.fit(trainFeatures)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:56:57.469",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.ml.feature.MinHashLSH\n\u001b[1m\u001b[34mmh\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.feature.MinHashLSH\u001b[0m \u003d mh-lsh_490ed4971f92\n\u001b[1m\u001b[34mmhModel\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.feature.MinHashLSHModel\u001b[0m \u003d mh-lsh_490ed4971f92\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d10"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605338069158_-259440299",
+      "id": "paragraph_1605338069158_-259440299",
+      "dateCreated": "2020-11-14 07:14:29.158",
+      "dateStarted": "2021-11-27 09:56:57.483",
+      "dateFinished": "2021-11-27 09:56:57.893",
+      "status": "FINISHED"
+    },
+    {
+      "text": "mhModel.transform(trainFeatures).select(col(\"buckets\")).show(truncate\u003dfalse)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:57:04.314",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------------------------------------------------------------------------------------------------------------+\n|buckets                                                                                                     |\n+------------------------------------------------------------------------------------------------------------+\n|[[2.30542877E8], [3.2278846E7], [8.4758761E7], [2.77191206E8], [1.00331611E8], [2.7754844E7], [3.6083252E7]]|\n|[[3198737.0], [2.0248565E7], [1120794.0], [210814.0], [3206799.0], [1.4527816E7], [322717.0]]               |\n|[[1.13116197E8], [2.5421439E7], [8.0352776E7], [1.9431351E7], [1.87769482E8], [3.5750709E7], [1.4691196E7]] |\n|[[1.8730474E7], [3.4865283E7], [1120794.0], [1.9909707E7], [5.8191917E7], [2.7754844E7], [2.6504266E7]]     |\n|[[1.0133907E8], [5.2970342E7], [1.872645E7], [5.8350781E7], [2.641755E7], [9296653.0], [3.6083252E7]]       |\n|[[1.6853169E7], [9.6037867E7], [4.0740703E7], [5.9307493E7], [9290318.0], [4.3746574E7], [7.4399196E7]]     |\n|[[3198737.0], [458973.0], [9927540.0], [1.9192173E7], [3206799.0], [2.4990142E7], [2556801.0]]              |\n|[[4.2966732E7], [3.2278846E7], [6.7147881E7], [7.9245564E7], [8.3882765E7], [9296653.0], [3.1293759E7]]     |\n|[[3198737.0], [8.0519245E7], [1123406.0], [4.0086956E7], [1.6052223E7], [5.42089E7], [3.6083252E7]]         |\n|[[9.2634549E7], [1.2489254E7], [4.0738091E7], [2.0148885E7], [1.6052223E7], [3.8515411E7], [3.1293759E7]]   |\n|[[3198737.0], [1.00308837E8], [1123406.0], [4.0086956E7], [726702.0], [1300788.0], [3.6083252E7]]           |\n|[[3198737.0], [4729943.0], [9924928.0], [1.8952995E7], [3206799.0], [1.4527816E7], [2556801.0]]             |\n|[[1321432.0], [3.2278846E7], [9924928.0], [1.9431351E7], [3206799.0], [2.4990142E7], [1.5808238E7]]         |\n|[[2.555769E7], [1.86443887E8], [1120794.0], [1.77500851E8], [1.6052223E7], [7.8196495E7], [5112210.0]]      |\n|[[4.6039338E7], [7316380.0], [2.3132435E7], [1.37624709E8], [7488607.0], [6531951.0], [1.5808238E7]]        |\n|[[2.1125653E8], [3.2278846E7], [5524167.0], [3.8173532E7], [5008510.0], [3767249.0], [6.0030717E7]]         |\n|[[6.344838E7], [1.5075691E7], [2.3129823E7], [1.37624709E8], [6.4275436E7], [5.42089E7], [1.1018745E7]]     |\n|[[3198737.0], [5.2970342E7], [5.3942986E7], [1.9431351E7], [5008510.0], [1.4527816E7], [2.1714773E7]]       |\n|[[1321432.0], [2.0248565E7], [5524167.0], [4.0086956E7], [3206799.0], [1300788.0], [322717.0]]              |\n|[[3198737.0], [458973.0], [1120794.0], [210814.0], [3206799.0], [1300788.0], [322717.0]]                    |\n+------------------------------------------------------------------------------------------------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d11"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605338548125_2097550796",
+      "id": "paragraph_1605338548125_2097550796",
+      "dateCreated": "2020-11-14 07:22:28.125",
+      "dateStarted": "2021-11-27 09:57:04.328",
+      "dateFinished": "2021-11-27 09:57:04.756",
+      "status": "FINISHED"
+    },
+    {
+      "title": "Найдем ближайших соседей",
+      "text": "val neighbors \u003d mhModel.approxSimilarityJoin(trainFeatures, testFeaturesWithIndex, 0.7)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:57:15.379",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mneighbors\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[_]\u001b[0m \u003d [datasetA: struct\u003cReview: string, Rating: int ... 5 more fields\u003e, datasetB: struct\u003cReview: string, Rating: int ... 6 more fields\u003e ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605338068877_1614379039",
+      "id": "paragraph_1605338068877_1614379039",
+      "dateCreated": "2020-11-14 07:14:28.877",
+      "dateStarted": "2021-11-27 09:57:15.392",
+      "dateFinished": "2021-11-27 09:57:15.685",
+      "status": "FINISHED"
+    },
+    {
+      "text": "neighbors.printSchema",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:57:25.281",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- datasetA: struct (nullable \u003d false)\n |    |-- Review: string (nullable \u003d true)\n |    |-- Rating: integer (nullable \u003d true)\n |    |-- tokenized: array (nullable \u003d true)\n |    |    |-- element: string (containsNull \u003d true)\n |    |-- tf: vector (nullable \u003d true)\n |    |-- tf2: vector (nullable \u003d true)\n |    |-- tfidf: vector (nullable \u003d true)\n |    |-- buckets: array (nullable \u003d true)\n |    |    |-- element: vector (containsNull \u003d true)\n |-- datasetB: struct (nullable \u003d false)\n |    |-- Review: string (nullable \u003d true)\n |    |-- Rating: integer (nullable \u003d true)\n |    |-- tokenized: array (nullable \u003d true)\n |    |    |-- element: string (containsNull \u003d true)\n |    |-- tf: vector (nullable \u003d true)\n |    |-- tf2: vector (nullable \u003d true)\n |    |-- tfidf: vector (nullable \u003d true)\n |    |-- id: long (nullable \u003d false)\n |    |-- buckets: array (nullable \u003d true)\n |    |    |-- element: vector (containsNull \u003d true)\n |-- distCol: double (nullable \u003d true)\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605338498495_1667196985",
+      "id": "paragraph_1605338498495_1667196985",
+      "dateCreated": "2020-11-14 07:21:38.495",
+      "dateStarted": "2021-11-27 09:57:25.294",
+      "dateFinished": "2021-11-27 09:57:25.448",
+      "status": "FINISHED"
+    },
+    {
+      "text": "neighbors.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-26 16:15:01.415",
+      "progress": 55,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+--------------------+------------------+\n|            datasetA|            datasetB|           distCol|\n+--------------------+--------------------+------------------+\n|[avoid like plagu...|[vacation make hu...|0.6957236842105263|\n|[wow fantastic pl...|[whatta ride, lon...|0.6984126984126984|\n|[memorable relaxi...|[sure read just g...|0.6549295774647887|\n|[average problems...|[riu bambu good b...|0.6900212314225054|\n|[loved resort isl...|[punta cana princ...|0.6441515650741351|\n|[liked, stayed hi...|[star resort worl...| 0.698961937716263|\n|[great family vac...|[good bad good gr...|0.6949891067538126|\n|[nice stayed 4 ni...|[loved stay, stay...|0.6785714285714286|\n|[sunshine just re...|[star resort worl...|0.6590538336052203|\n|[wow place first-...|[vacation make hu...|0.6666666666666667|\n|[tips platinum vi...|[sure read just g...|0.6619469026548672|\n|[traveler beware ...|[vacation make hu...|0.6692667706708268|\n|[honeymoon childr...|[star resort worl...|0.6831345826235093|\n|[loved riu bambu,...|[star resort worl...|0.6598639455782314|\n|[loved resort isl...|[star resort worl...| 0.659270998415214|\n|[honeymoon childr...|[vacation make hu...|0.6304000000000001|\n|[loved riu bambu,...|[whatta ride, lon...|0.6967871485943775|\n|[loved buy vacati...|[star resort worl...|0.6917562724014337|\n|[memorable relaxi...|[star resort worl...|0.6406995230524642|\n|[sunshine just re...|[sure read just g...|0.6709090909090909|\n+--------------------+--------------------+------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://d3e44475619b:4040/jobs/job?id\u003d10"
+            },
+            {
+              "jobUrl": "http://d3e44475619b:4040/jobs/job?id\u003d11"
+            },
+            {
+              "jobUrl": "http://d3e44475619b:4040/jobs/job?id\u003d12"
+            },
+            {
+              "jobUrl": "http://d3e44475619b:4040/jobs/job?id\u003d13"
+            },
+            {
+              "jobUrl": "http://d3e44475619b:4040/jobs/job?id\u003d14"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605338068410_1013951892",
+      "id": "paragraph_1605338068410_1013951892",
+      "dateCreated": "2020-11-14 07:14:28.410",
+      "dateStarted": "2021-11-26 16:15:01.435",
+      "dateFinished": "2021-11-26 16:15:13.170",
+      "status": "FINISHED"
+    },
+    {
+      "title": "Соберем предсказания",
+      "text": "val predictions \u003d neighbors\n    .withColumn(\"similarity\", (lit(1) - col(\"distCol\")))\n    .groupBy(\"datasetB.id\")\n    .agg((sum(col(\"similarity\") * col(\"datasetA.Rating\")) / sum(col(\"similarity\"))).as(\"predict\"))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:57:47.814",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mpredictions\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [id: bigint, predict: double]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605338068295_1519239185",
+      "id": "paragraph_1605338068295_1519239185",
+      "dateCreated": "2020-11-14 07:14:28.295",
+      "dateStarted": "2021-11-27 09:57:47.829",
+      "dateFinished": "2021-11-27 09:57:48.178",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val forMetric \u003d testFeaturesWithIndex.join(predictions, Seq(\"id\"))\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:58:00.150",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mforMetric\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [id: bigint, Review: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605338811531_-754661383",
+      "id": "paragraph_1605338811531_-754661383",
+      "dateCreated": "2020-11-14 07:26:51.531",
+      "dateStarted": "2021-11-27 09:58:00.163",
+      "dateFinished": "2021-11-27 09:58:00.430",
+      "status": "FINISHED"
+    },
+    {
+      "title": "Создадим инстанс оценщика качества",
+      "text": "import org.apache.spark.ml.evaluation.RegressionEvaluator\n\nval metrics \u003d new RegressionEvaluator()\n    .setLabelCol(\"Rating\")\n    .setPredictionCol(\"predict\")\n    .setMetricName(\"rmse\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:58:19.118",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.ml.evaluation.RegressionEvaluator\n\u001b[1m\u001b[34mmetrics\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.evaluation.RegressionEvaluator\u001b[0m \u003d regEval_17aaf9a6f633\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605338068123_881585989",
+      "id": "paragraph_1605338068123_881585989",
+      "dateCreated": "2020-11-14 07:14:28.124",
+      "dateStarted": "2021-11-27 09:58:19.131",
+      "dateFinished": "2021-11-27 09:58:19.304",
+      "status": "FINISHED"
+    },
+    {
+      "text": "metrics.evaluate(forMetric)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:58:22.784",
+      "progress": 91,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mres9\u001b[0m: \u001b[1m\u001b[32mDouble\u001b[0m \u003d 1.183501783956166\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d12"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d13"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d14"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605338067868_304910005",
+      "id": "paragraph_1605338067868_304910005",
+      "dateCreated": "2020-11-14 07:14:27.868",
+      "dateStarted": "2021-11-27 09:58:22.798",
+      "dateFinished": "2021-11-27 09:58:37.680",
+      "status": "FINISHED"
+    },
+    {
+      "title": "Посмотрим как зависит качество от количества хэшей",
+      "text": "val results \u003d Array.range(3, 16, 2).map(numHashes \u003d\u003e {\n    val mh \u003d new MinHashLSH()\n        .setInputCol(\"tf\")\n        .setOutputCol(\"buckets\")\n        .setNumHashTables(numHashes)\n        .fit(trainFeatures)\n    \n    val neighbors \u003d mh.approxSimilarityJoin(trainFeatures, testFeaturesWithIndex, 0.7)\n    \n    val predictions \u003d neighbors\n        .withColumn(\"similarity\", (lit(1) - col(\"distCol\")))\n        .groupBy(\"datasetB.id\")\n        .agg(\n            (sum(col(\"similarity\") * col(\"datasetA.Rating\")) / sum(col(\"similarity\"))).as(\"predict\"),\n            count(\"datasetA.Rating\").as(\"numNeighbors\")\n        )\n    \n    val forMetric \u003d testFeaturesWithIndex.join(predictions, Seq(\"id\"))\n    \n    val meanNumNeighbors \u003d forMetric.select(avg(\"numNeighbors\")).collect.head(0)\n    \n    val metric \u003d metrics.evaluate(forMetric)\n    \n    val res \u003d (numHashes, metric, meanNumNeighbors)\n    println(res)\n    res\n})",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:58:39.849",
+      "progress": 74,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(3,1.1567556100740706,9.444444444444445)\n(5,1.1672305998520105,11.444444444444445)\n(7,1.183501783956166,12.0)\n(9,1.0203467386541687,11.3)\n(11,1.0103446749415363,11.4)\n(13,1.0103446749415363,11.4)\n(15,1.0103446749415363,11.4)\n\u001b[1m\u001b[34mresults\u001b[0m: \u001b[1m\u001b[32mArray[(Int, Double, Any)]\u001b[0m \u003d Array((3,1.1567556100740706,9.444444444444445), (5,1.1672305998520105,11.444444444444445), (7,1.183501783956166,12.0), (9,1.0203467386541687,11.3), (11,1.0103446749415363,11.4), (13,1.0103446749415363,11.4), (15,1.0103446749415363,11.4))\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d15"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d16"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d17"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d18"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d19"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d20"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d21"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d22"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d23"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d24"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d25"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d26"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d27"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d28"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d29"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d30"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d31"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d32"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d33"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d34"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d35"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d36"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d37"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d38"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d39"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d40"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d41"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d42"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d43"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d44"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d45"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d46"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d47"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d48"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d49"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d50"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d51"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d52"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d53"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d54"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d55"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d56"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d57"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d58"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d59"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d60"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d61"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d62"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d63"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605338067695_860727703",
+      "id": "paragraph_1605338067695_860727703",
+      "dateCreated": "2020-11-14 07:14:27.695",
+      "dateStarted": "2021-11-27 09:58:39.870",
+      "dateFinished": "2021-11-27 10:01:46.943",
+      "status": "FINISHED"
+    },
+    {
+      "text": "z.show(results.map(x \u003d\u003e (x._1, x._2)).toList.toDF(\"numHashes\", \"rmse\"))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 09:58:58.072",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "lineChart",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "numHashes": "string",
+                      "rmse": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "numHashes",
+                  "index": 0.0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "rmse",
+                  "index": 1.0,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "numHashes\trmse\n3\t1.1567556100740706\n5\t1.1672305998520105\n7\t1.183501783956166\n9\t1.0203467386541687\n11\t1.0103446749415363\n13\t1.0103446749415363\n15\t1.0103446749415363\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605339748587_1359289503",
+      "id": "paragraph_1605339748587_1359289503",
+      "dateCreated": "2020-11-14 07:42:28.587",
+      "dateStarted": "2021-11-27 09:58:58.097",
+      "dateFinished": "2021-11-27 10:01:48.578",
+      "status": "FINISHED"
+    },
+    {
+      "title": "Проделаем все тоже самое, но для расстояния Евклида",
+      "text": "import org.apache.spark.ml.feature.BucketedRandomProjectionLSH\n\n\nval mh \u003d new BucketedRandomProjectionLSH()\n    .setInputCol(\"tfidf\")\n    .setOutputCol(\"brpBuckets\")\n    .setBucketLength(5)\n    .setNumHashTables(3)\n\nval mhModel \u003d mh.fit(trainFeatures)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 10:08:08.423",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.ml.feature.BucketedRandomProjectionLSH\n\u001b[1m\u001b[34mmh\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.feature.BucketedRandomProjectionLSH\u001b[0m \u003d brp-lsh_82b6b8025bbd\n\u001b[1m\u001b[34mmhModel\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.feature.BucketedRandomProjectionLSHModel\u001b[0m \u003d brp-lsh_82b6b8025bbd\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d123"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605337516716_81990137",
+      "id": "paragraph_1605337516716_81990137",
+      "dateCreated": "2020-11-14 07:05:16.716",
+      "dateStarted": "2021-11-27 10:08:08.439",
+      "dateFinished": "2021-11-27 10:08:08.670",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val euqlidNeigh \u003d mhModel.approxSimilarityJoin(trainFeatures, testFeaturesWithIndex, 10)\n\neuqlidNeigh.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 10:08:10.766",
+      "progress": 45,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+--------------------+-----------------+\n|            datasetA|            datasetB|          distCol|\n+--------------------+--------------------+-----------------+\n|[great airport ho...|[rip, price pay n...|9.807942076666654|\n|[good location ho...|[simply fantastic...|9.487589187251933|\n|[basic nice, basi...|[rip, price pay n...|9.121706819187564|\n|[great place say ...|[park hotel recom...|8.996883289912278|\n|[great city hilto...|[fabulous trip st...| 8.59675355007281|\n|[excellent hotel ...|[fabulous trip st...|8.966614463867089|\n|[good location ho...|[fabulous trip st...| 8.90000126987683|\n|[good location ho...|[amazing apartmen...|9.309077406428363|\n|[basic nice, basi...|[amazing apartmen...|9.675386787851654|\n|[great airport ho...|[fabulous trip st...|9.751079953109592|\n|[fabulous hotel g...|[amazing apartmen...|8.410842202300513|\n|[good location ho...|[good location ni...|9.961621096930772|\n|[enjoyed hotel lo...|[amazing apartmen...|9.439416248090764|\n|[loved, excellent...|[nice place time ...| 9.97941336851434|\n|[great place say ...|[nice nice hotel ...|9.451706914478759|\n|[perfect stay sta...|[amazing apartmen...| 9.54045058285847|\n|[fabulous hotel g...|[fabulous trip st...|7.562289557749105|\n|[little gem booke...|[fabulous trip st...| 9.78872120821479|\n|[great place say ...|[simply fantastic...|7.718315714063385|\n|[great stay ideal...|[rip, price pay n...|9.627284257054233|\n+--------------------+--------------------+-----------------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34meuqlidNeigh\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[_]\u001b[0m \u003d [datasetA: struct\u003cReview: string, Rating: int ... 5 more fields\u003e, datasetB: struct\u003cReview: string, Rating: int ... 6 more fields\u003e ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d124"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d125"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d126"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d127"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d128"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605337517289_1897987480",
+      "id": "paragraph_1605337517289_1897987480",
+      "dateCreated": "2020-11-14 07:05:17.289",
+      "dateStarted": "2021-11-27 10:08:10.781",
+      "dateFinished": "2021-11-27 10:08:13.324",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val predictions \u003d euqlidNeigh\n    .withColumn(\"similarity\", (lit(1) / (col(\"distCol\") + lit(0.0000001))))\n    .groupBy(\"datasetB.id\")\n    .agg((sum(col(\"similarity\") * col(\"datasetA.Rating\")) / sum(col(\"similarity\"))).as(\"predict\"))\n\nval forMetric \u003d testFeaturesWithIndex.join(predictions, Seq(\"id\"))\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 10:08:16.606",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mpredictions\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [id: bigint, predict: double]\n\u001b[1m\u001b[34mforMetric\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [id: bigint, Review: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605337517803_-1348895563",
+      "id": "paragraph_1605337517803_-1348895563",
+      "dateCreated": "2020-11-14 07:05:17.803",
+      "dateStarted": "2021-11-27 10:08:16.621",
+      "dateFinished": "2021-11-27 10:08:16.863",
+      "status": "FINISHED"
+    },
+    {
+      "text": "metrics.evaluate(forMetric)",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 10:08:18.696",
+      "progress": 80,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mres15\u001b[0m: \u001b[1m\u001b[32mDouble\u001b[0m \u003d 1.0743383780094442\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d129"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d130"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d131"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1605337517633_1361028223",
+      "id": "paragraph_1605337517633_1361028223",
+      "dateCreated": "2020-11-14 07:05:17.633",
+      "dateStarted": "2021-11-27 10:08:18.710",
+      "dateFinished": "2021-11-27 10:08:22.431",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val results \u003d Array.range(3, 16, 2).map(numHashes \u003d\u003e {\n    val mh \u003d new BucketedRandomProjectionLSH()\n        .setInputCol(\"tfidf\")\n        .setOutputCol(\"brpBuckets\")\n        .setBucketLength(0.5)\n        .setNumHashTables(numHashes)\n    \n    val mhModel \u003d mh.fit(trainFeatures)\n    \n    val neighbors \u003d mhModel.approxSimilarityJoin(trainFeatures, testFeaturesWithIndex, 10)\n    \n    val predictions \u003d neighbors\n        .withColumn(\"similarity\", (lit(1) / (col(\"distCol\") + lit(0.0000001))))\n        .groupBy(\"datasetB.id\")\n        .agg(\n            (sum(col(\"similarity\") * col(\"datasetA.Rating\")) / sum(col(\"similarity\"))).as(\"predict\"),\n            count(\"datasetA.Rating\").as(\"numNeighbors\")\n        )\n    \n    val forMetric \u003d testFeaturesWithIndex.join(predictions, Seq(\"id\"))\n    \n    val meanNumNeighbors \u003d forMetric.select(avg(\"numNeighbors\")).collect.head(0)\n    \n    val metric \u003d metrics.evaluate(forMetric)\n    \n    val res \u003d (numHashes, metric, meanNumNeighbors)\n    println(res)\n    res\n})",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 10:08:25.871",
+      "progress": 77,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(3,1.0680420524081329,6.266666666666667)\n(5,1.0526300397000254,6.866666666666666)\n(7,1.0588899941410985,7.066666666666666)\n(9,1.0588899941410983,7.066666666666666)\n(11,1.0599434597753012,7.133333333333334)\n(13,1.0599434597753012,7.133333333333334)\n(15,1.059943459775301,7.133333333333334)\n\u001b[1m\u001b[34mresults\u001b[0m: \u001b[1m\u001b[32mArray[(Int, Double, Any)]\u001b[0m \u003d Array((3,1.0680420524081329,6.266666666666667), (5,1.0526300397000254,6.866666666666666), (7,1.0588899941410985,7.066666666666666), (9,1.0588899941410983,7.066666666666666), (11,1.0599434597753012,7.133333333333334), (13,1.0599434597753012,7.133333333333334), (15,1.059943459775301,7.133333333333334))\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d132"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d133"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d134"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d135"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d136"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d137"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d138"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d139"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d140"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d141"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d142"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d143"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d144"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d145"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d146"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d147"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d148"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d149"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d150"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d151"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d152"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d153"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d154"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d155"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d156"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d157"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d158"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d159"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d160"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d161"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d162"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d163"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d164"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d165"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d166"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d167"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d168"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d169"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d170"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d171"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d172"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d173"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d174"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d175"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d176"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d177"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d178"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d179"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d180"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1637943993556_1712827735",
+      "id": "paragraph_1637943993556_1712827735",
+      "dateCreated": "2021-11-26 16:26:33.557",
+      "dateStarted": "2021-11-27 10:08:25.884",
+      "dateFinished": "2021-11-27 10:09:25.188",
+      "status": "FINISHED"
+    },
+    {
+      "text": "z.show(results.map(x \u003d\u003e (x._1, x._2)).toList.toDF(\"numHashes\", \"rmse\"))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 10:09:26.405",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "lineChart",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "numHashes": "string",
+                      "rmse": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "numHashes",
+                  "index": 0.0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "rmse",
+                  "index": 1.0,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "numHashes": "string",
+                      "rmse": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "numHashes\trmse\n3\t1.0680420524081329\n5\t1.0526300397000254\n7\t1.0588899941410985\n9\t1.0588899941410983\n11\t1.0599434597753012\n13\t1.0599434597753012\n15\t1.059943459775301\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1637944012187_1271226545",
+      "id": "paragraph_1637944012187_1271226545",
+      "dateCreated": "2021-11-26 16:26:52.188",
+      "dateStarted": "2021-11-27 10:08:28.809",
+      "dateFinished": "2021-11-27 10:09:25.907",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val results \u003d Array.range(1, 16, 2).map(bucketLength \u003d\u003e {\n    val mh \u003d new BucketedRandomProjectionLSH()\n        .setInputCol(\"tfidf\")\n        .setOutputCol(\"brpBuckets\")\n        .setBucketLength(bucketLength / 10.0)\n        .setNumHashTables(9)\n    \n    val mhModel \u003d mh.fit(trainFeatures)\n    \n    val neighbors \u003d mhModel.approxSimilarityJoin(trainFeatures, testFeaturesWithIndex, 10)\n    \n    val predictions \u003d neighbors\n        .withColumn(\"similarity\", (lit(1) / (col(\"distCol\") + lit(0.0000001))))\n        .groupBy(\"datasetB.id\")\n        .agg(\n            (sum(col(\"similarity\") * col(\"datasetA.Rating\")) / sum(col(\"similarity\"))).as(\"predict\"),\n            count(\"datasetA.Rating\").as(\"numNeighbors\")\n        )\n    \n    val forMetric \u003d testFeaturesWithIndex.join(predictions, Seq(\"id\"))\n    \n    val meanNumNeighbors \u003d forMetric.select(avg(\"numNeighbors\")).collect.head(0)\n    \n    val metric \u003d metrics.evaluate(forMetric)\n    \n    val res \u003d (bucketLength, metric, meanNumNeighbors)\n    println(res)\n    res\n})",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 10:08:36.843",
+      "progress": 48,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(1,1.0873650756592892,5.928571428571429)\n(3,1.0616468265909529,6.933333333333334)\n(5,1.0588899941410983,7.066666666666666)\n(7,1.0588899941410983,7.066666666666666)\n(9,1.0588899941410985,7.066666666666666)\n(11,1.0588899941410983,7.066666666666666)\n(13,1.0588899941410983,7.066666666666666)\n(15,1.0588899941410983,7.066666666666666)\n\u001b[1m\u001b[34mresults\u001b[0m: \u001b[1m\u001b[32mArray[(Int, Double, Any)]\u001b[0m \u003d Array((1,1.0873650756592892,5.928571428571429), (3,1.0616468265909529,6.933333333333334), (5,1.0588899941410983,7.066666666666666), (7,1.0588899941410983,7.066666666666666), (9,1.0588899941410985,7.066666666666666), (11,1.0588899941410983,7.066666666666666), (13,1.0588899941410983,7.066666666666666), (15,1.0588899941410983,7.066666666666666))\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d181"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d182"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d183"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d184"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d185"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d186"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d187"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d188"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d189"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d190"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d191"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d192"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d193"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d194"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d195"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d196"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d197"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d198"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d199"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d200"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d201"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d202"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d203"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d204"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d205"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d206"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d207"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d208"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d209"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d210"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d211"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d212"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d213"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d214"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d215"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d216"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d217"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d218"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d219"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d220"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d221"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d222"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d223"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d224"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d225"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d226"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d227"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d228"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d229"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d230"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d231"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d232"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d233"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d234"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d235"
+            },
+            {
+              "jobUrl": "http://ec8bca8d1422:4040/jobs/job?id\u003d236"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1637943378893_418859279",
+      "id": "paragraph_1637943378893_418859279",
+      "dateCreated": "2021-11-26 16:16:18.893",
+      "dateStarted": "2021-11-27 10:09:25.292",
+      "dateFinished": "2021-11-27 10:10:40.879",
+      "status": "FINISHED"
+    },
+    {
+      "text": "z.show(results.map(x \u003d\u003e (x._1, x._2)).toList.toDF(\"bucketLength\", \"rmse\"))",
+      "user": "anonymous",
+      "dateUpdated": "2021-11-27 10:10:45.422",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "lineChart",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "bucketLength": "string",
+                      "rmse": "string"
+                    },
+                    "updated": true
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "bucketLength",
+                  "index": 0.0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "rmse",
+                  "index": 1.0,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "bucketLength\trmse\n1\t1.0873650756592892\n3\t1.0616468265909529\n5\t1.0588899941410983\n7\t1.0588899941410983\n9\t1.0588899941410985\n11\t1.0588899941410983\n13\t1.0588899941410983\n15\t1.0588899941410983\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1637943805800_1958302933",
+      "id": "paragraph_1637943805800_1958302933",
+      "dateCreated": "2021-11-26 16:23:25.800",
+      "dateStarted": "2021-11-27 10:10:45.437",
+      "dateFinished": "2021-11-27 10:10:45.990",
+      "status": "FINISHED"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1637943880258_95953595",
+      "id": "paragraph_1637943880258_95953595",
+      "dateCreated": "2021-11-26 16:24:40.258",
+      "status": "READY"
+    }
+  ],
+  "name": "made-seminar",
+  "id": "2FRPAZK45",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0-preview1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}
